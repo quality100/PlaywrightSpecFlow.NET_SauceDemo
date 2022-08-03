@@ -84,11 +84,11 @@ namespace PlaywrightSpecFlow.NET_SauceDemo.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Login test - success")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         public virtual void LoginTest_Success()
         {
             string[] tagsOfScenario = new string[] {
-                    "mytag"};
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login test - success", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 6
@@ -126,18 +126,23 @@ this.FeatureBackground();
 #line 10
  testRunner.And("I click Login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
+#line 11
+ testRunner.Then("I verify Products page title is visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
             }
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Login test - invalid credentials")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
         public virtual void LoginTest_InvalidCredentials()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login test - invalid credentials", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 13
+#line 14
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -166,11 +171,89 @@ this.FeatureBackground();
                 table2.AddRow(new string[] {
                             "Invalid_username",
                             "Invalid_password"});
-#line 14
+#line 15
  testRunner.When("I enter following login details", ((string)(null)), table2, "When ");
 #line hidden
-#line 17
+#line 18
  testRunner.And("I click Login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 19
+ testRunner.Then("I verify invalid credentials error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Login test - retry")]
+        [NUnit.Framework.CategoryAttribute("smoke")]
+        public virtual void LoginTest_Retry()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "smoke"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login test - retry", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 22
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 2
+this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                            "username",
+                            "password"});
+                table3.AddRow(new string[] {
+                            "Invalid_username",
+                            "Invalid_password"});
+#line 23
+ testRunner.When("I enter following login details", ((string)(null)), table3, "When ");
+#line hidden
+#line 26
+ testRunner.And("I click Login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 27
+ testRunner.Then("I verify invalid credentials error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 28
+ testRunner.When("I close error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 29
+ testRunner.Then("I verify error message not visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 30
+ testRunner.When("I clear username and password fields", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                            "username",
+                            "password"});
+                table4.AddRow(new string[] {
+                            "standard_user",
+                            "secret_sauce"});
+#line 31
+ testRunner.And("I enter following login details", ((string)(null)), table4, "And ");
+#line hidden
+#line 34
+ testRunner.And("I click Login button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 35
+ testRunner.Then("I verify Products page title is visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

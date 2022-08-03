@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj": {}
+    "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj": {
+    "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj",
+        "projectUniqueName": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj",
         "projectName": "PlaywrightSpecFlow.NET_SauceDemo",
-        "projectPath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj",
-        "packagesPath": "C:\\Users\\yury.samsonau\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\obj\\",
+        "projectPath": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj",
+        "packagesPath": "C:\\Users\\quali\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\yury.samsonau\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\quali\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -88,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.105\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
