@@ -1,18 +1,19 @@
 ﻿using NUnit.Framework;
 using PlaywrightSauceDemo.Pages;
+using PlaywrightSpecFlow.NET_SauceDemo.Interfaces;
 using SpecFlowSauceDemo_.NET.Drivers;
 using TechTalk.SpecFlow.Assist;
 
 namespace PlaywrightSpecFlow.NET_SauceDemo.Steps;
 
 [Binding]
-public class SmokeTestSteps
+public class LoginTestSteps
 {
     private readonly Driver _driver;
     private readonly LoginPage _loginPage;
     private readonly ProductsPage _productsPage;
     
-    public SmokeTestSteps(Driver driver)
+    public LoginTestSteps(Driver driver)
     {
         _driver = driver;
         _loginPage = new LoginPage(_driver.Page);
@@ -45,11 +46,7 @@ public class SmokeTestSteps
         Assert.AreEqual(_productsPage.productsPageTitle,_productsPage.getProductsPageTitle());
     }
 
-    [Then(@"I verify invalid credentials error message")]
-    public void ThenIVerifyInvalidCredentialsErrorMessage()
-    {
-        Assert.AreEqual(_loginPage.invalidCredentialsErrorMessage, _loginPage.getInvalidCredentialsErrorMessage());
-    }
+   
 
     [When(@"I close error message")]
     public async Task WhenICloseErrorMessage()
@@ -68,5 +65,32 @@ public class SmokeTestSteps
     public async Task WhenIClearUsernameAndPasswordFields()
     {
         await _loginPage.clearInputFields();
+    }
+
+    [Then(@"I verify (.*) error message")]
+    public void ThenIVerifyEmptyCredentialsErrorMessage(string messageType)
+    {
+        switch (messageType.ToUpper())
+        {
+            case "EMPTY CREDENTIALS":
+                Assert.AreEqual(ErrorMessages_LoginPage.emptyUsernameErrorMessage, _loginPage.getInvalidCredentialsErrorMessage());
+                break;
+            case "INVALID CREDENTIALS":
+                Assert.AreEqual(ErrorMessages_LoginPage.invalidCredentialsErrorMessage, _loginPage.getInvalidCredentialsErrorMessage());
+                break;
+            case "EMPTY PASSWORD":
+                Assert.AreEqual(ErrorMessages_LoginPage.emptyPasswordErrorMessage, _loginPage.getInvalidCredentialsErrorMessage());
+                break;
+            default:
+                Console.WriteLine("Verify error message!");
+                break;
+        }
+    }
+
+    [When(@"I successfully looged in")]
+    public async Task WhenISuccessfullyLoogedIn(Table table)
+    {
+        await WhenIEnterFollowingLoginDetails(table);
+        await WhenIClickLoginButton();
     }
 }

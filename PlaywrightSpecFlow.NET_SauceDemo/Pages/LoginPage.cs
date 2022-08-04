@@ -12,11 +12,7 @@ public class LoginPage
     private ILocator _errorMessage => _page.Locator("//h3[@data-test='error']");
     private ILocator _closeErrorMessageButton => _page.Locator("//button[@class = 'error-button']");
     public  ILocator _errorMessagePoppup =>_page.Locator("//div[@class='error-message-container']");
-
-    public readonly string invalidCredentialsErrorMessage =
-        "Epic sadface: Username and password do not match any user in this service";
     
-
     public async Task TypeUsername(string username) => await _usernameInput.FillAsync(username);
     public async Task TypePassword(string password) => await _passwordInput.FillAsync(password);
     public async Task ClickLoginButton() => await _loginButton.ClickAsync();
