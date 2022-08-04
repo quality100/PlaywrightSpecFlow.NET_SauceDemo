@@ -65,8 +65,8 @@ public class SmokeTestSteps
     }
 
     [When(@"I clear username and password fields")]
-    public void WhenIClearUsernameAndPasswordFields()
+    public async Task WhenIClearUsernameAndPasswordFields()
     {
-        _loginPage.clearInputFields();
+        await _loginPage.clearInputFields();
     }
 }
