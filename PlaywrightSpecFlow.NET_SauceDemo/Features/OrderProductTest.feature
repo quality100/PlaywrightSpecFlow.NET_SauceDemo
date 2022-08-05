@@ -7,4 +7,4 @@
 
 @mytag
 Scenario: Order single product
-	When I select random
+	When I select random product

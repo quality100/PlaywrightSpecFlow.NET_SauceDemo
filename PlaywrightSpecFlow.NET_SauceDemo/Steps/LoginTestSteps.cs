@@ -9,17 +9,12 @@ namespace PlaywrightSpecFlow.NET_SauceDemo.Steps;
 [Binding]
 public class LoginTestSteps
 {
-    private readonly Driver _driver;
-    private readonly LoginPage _loginPage;
-    private readonly ProductsPage _productsPage;
+    private Driver _driver;
+    public LoginTestSteps(Driver driver) => _driver = driver;
+    private LoginPage _loginPage => new LoginPage(_driver.Page);
+    private ProductsPage _productsPage =>new ProductsPage(_driver.Page);
     
-    public LoginTestSteps(Driver driver)
-    {
-        _driver = driver;
-        _loginPage = new LoginPage(_driver.Page);
-        _productsPage = new ProductsPage(_driver.Page);
-    }
-    
+
     [Given(@"I navigate to Sauce Demo")]
     public void GivenINavigateToSauceDemo()
     {
@@ -92,5 +87,6 @@ public class LoginTestSteps
     {
         await WhenIEnterFollowingLoginDetails(table);
         await WhenIClickLoginButton();
+        await _driver.Page.PauseAsync();
     }
 }
