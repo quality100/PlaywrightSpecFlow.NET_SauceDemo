@@ -8,3 +8,4 @@
 @mytag
 Scenario: Order single product
 	When I select random product
+	Then I verify label on Products Page and Single Product Page are equal

@@ -1,4 +1,5 @@
-﻿using Microsoft.Playwright;
+﻿using Dynamitey;
+using Microsoft.Playwright;
 
 namespace PlaywrightSauceDemo.Pages;
 
@@ -25,11 +26,11 @@ public class ProductsPage
         return _productsPageTitle.InnerTextAsync().Result;
     }
 
-    public IList<string> getProductsLabels()
+    public  List<string> getProductsLabels()
     {
         var rows = _productLabels;
         int count = rows.CountAsync().Result;
-        IList<string> list = new List<string>();
+        List<string> list = new List<string>();
         for (int i = 0; i < count; i++)
         {
            list.Add(rows.Nth(i).TextContentAsync().Result);
@@ -39,12 +40,17 @@ public class ProductsPage
 
     public string getRandomElementTextFromList()
     {
-        IList<string> list = getProductsLabels();
-        return list.ElementAt(new Random().Next(1, list.Count));
+        var list = getProductsLabels();
+        return list.ElementAt(new Random().Next(1, list.Count-1));
     }
 
     public async Task clickRandomElementLabel()
     {
         await _randomProductLabel.ClickAsync();
+    }
+
+    public string getProductsDescriptionText()
+    {
+        return _productDescription.InnerTextAsync().Result;
     }
 }

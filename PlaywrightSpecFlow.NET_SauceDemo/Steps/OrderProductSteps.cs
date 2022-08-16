@@ -1,4 +1,5 @@
-﻿using PlaywrightSauceDemo.Pages;
+﻿using NUnit.Framework;
+using PlaywrightSauceDemo.Pages;
 using SpecFlowSauceDemo_.NET.Drivers;
 
 namespace PlaywrightSpecFlow.NET_SauceDemo.Steps;
@@ -9,10 +10,22 @@ public class OrderProductSteps
     private Driver _driver;
     public OrderProductSteps(Driver driver) => _driver = driver;
     private ProductsPage _productsPage => new ProductsPage(_driver.Page);
+    private ProductPage _productPage => new ProductPage(_driver.Page);
     
     [When(@"I select random product")]
     public async Task WhenISelectRandomProduct()
     {
         await _productsPage._randomProductLabel.ClickAsync();
+    }
+
+    [Then(@"I verify (.*) on Products Page and Single Product Page are equal")]
+    public void ThenIVerifyLabelOnProductsPageAndSingleProductPageAreEqual(string part)
+    {
+        switch (part.ToUpper())
+        {
+            case "LABEL":
+                Assert.AreEqual(_productsPage.getProductLabelText(),_productPage.getProductLabel());
+                break;
+        }
     }
 }
