@@ -15,7 +15,8 @@ public class OrderProductSteps
     [When(@"I select random product")]
     public async Task WhenISelectRandomProduct()
     {
-        await _productsPage._randomProductLabel.ClickAsync();
+        await _productsPage.setProductLabelText();
+        await _productsPage.clickRandomElementLabel();
     }
 
     [Then(@"I verify (.*) on Products Page and Single Product Page are equal")]
@@ -28,4 +29,5 @@ public class OrderProductSteps
                 break;
         }
     }
+    
 }
