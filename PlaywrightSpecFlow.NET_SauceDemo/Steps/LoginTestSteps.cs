@@ -36,9 +36,9 @@ public class LoginTestSteps
     }
 
     [Then(@"I verify Products page title is visible")]
-    public void ThenIVerifyProductsPageTitleIsVisible()
+    public async Task ThenIVerifyProductsPageTitleIsVisible()
     {
-        Assert.AreEqual(_productsPage.productsPageTitle,_productsPage.getProductsPageTitle());
+       Assert.AreEqual(_productsPage.productsPageTitle,  await _productsPage.getProductsPageTitle());
     }
 
    
@@ -87,6 +87,6 @@ public class LoginTestSteps
     {
         await WhenIEnterFollowingLoginDetails(table);
         await WhenIClickLoginButton();
-        await _driver.Page.PauseAsync();
+        //await _driver.Page.PauseAsync();
     }
 }
