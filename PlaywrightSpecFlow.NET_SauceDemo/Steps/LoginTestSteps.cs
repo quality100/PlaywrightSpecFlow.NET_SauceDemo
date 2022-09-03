@@ -10,9 +10,16 @@ namespace PlaywrightSpecFlow.NET_SauceDemo.Steps;
 public class LoginTestSteps
 {
     private Driver _driver;
-    public LoginTestSteps(Driver driver) => _driver = driver;
+    private ScenarioContext _scenarioContext;
+
+    public LoginTestSteps(Driver driver, ScenarioContext scenarioContext)
+    {
+        _scenarioContext = scenarioContext;
+        _driver = driver;
+    }
+
     private LoginPage _loginPage => new LoginPage(_driver.Page);
-    private ProductsPage _productsPage =>new ProductsPage(_driver.Page);
+    private ProductsPage _productsPage =>new ProductsPage(_driver.Page, _scenarioContext);
     
 
     [Given(@"I navigate to Sauce Demo")]
@@ -87,6 +94,14 @@ public class LoginTestSteps
     {
         await WhenIEnterFollowingLoginDetails(table);
         await WhenIClickLoginButton();
-        //await _driver.Page.PauseAsync();
+       // await _driver.Page.PauseAsync();
+    }
+
+    [When(@"I enter following login details --new design")]
+    public async Task WhenIEnterFollowingLoginDetailsNewDesign(Table table)
+    {
+       await _loginPage.fillUsernameInputAsync(table.Rows[0]["username"]);
+       await _loginPage.fillPasswordInputAsync(table.Rows[0]["password"]);
+       await _loginPage.loginBtnClickAsync();
     }
 }

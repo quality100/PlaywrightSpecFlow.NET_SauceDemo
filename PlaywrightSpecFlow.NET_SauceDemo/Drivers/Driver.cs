@@ -26,9 +26,9 @@ namespace SpecFlowSauceDemo_.NET.Drivers
             return await _browser.NewPageAsync();
         }
 
-        public void Dispose()
+        /*public void Dispose()
         {
             _browser?.CloseAsync();
-        }
+        }*/
     }
 }

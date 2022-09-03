@@ -2,6 +2,13 @@
 Background: 
 	Given I navigate to Sauce Demo
 	
+	@newPOM_Design
+Scenario: Login test - new design
+	When I enter following login details --new design
+	  | username      | password     |
+	  | standard_user | secret_sauce |
+	Then I verify Products page title is visible
+	
 	@loginTest
 Scenario: Login test - success
 	When I enter following login details

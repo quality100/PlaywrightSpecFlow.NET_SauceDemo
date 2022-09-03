@@ -9,5 +9,5 @@
 Scenario: Order single product
 	When I select random product
 	Then I verify Product Description page is opened
-	And I verify Product description is the same as on Products Page
-	Then I verify label on Products Page and Single Product Page are equal
+	And I verify label on Products Page and Single Product Page are equal
+	And I verify description on Products Page and Single Product Page are equal
