@@ -65,6 +65,14 @@ class ChannelOwner extends _events.EventEmitter {
     this._initializer = initializer;
   }
 
+  _adopt(child) {
+    child._parent._objects.delete(child._guid);
+
+    this._objects.set(child._guid, child);
+
+    child._parent = this;
+  }
+
   _dispose() {
     // Clean up from parent and connection.
     if (this._parent) this._parent._objects.delete(this._guid);

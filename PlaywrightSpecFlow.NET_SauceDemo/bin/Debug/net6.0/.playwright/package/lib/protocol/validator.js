@@ -670,7 +670,7 @@ _validatorPrimitives.scheme.ElectronApplicationWaitForEventInfoResult = (0, _val
 _validatorPrimitives.scheme.AndroidDeviceWaitForEventInfoResult = (0, _validatorPrimitives.tType)('EventTargetWaitForEventInfoResult');
 _validatorPrimitives.scheme.BrowserContextInitializer = (0, _validatorPrimitives.tObject)({
   isChromium: _validatorPrimitives.tBoolean,
-  APIRequestContext: (0, _validatorPrimitives.tChannel)(['APIRequestContext']),
+  requestContext: (0, _validatorPrimitives.tChannel)(['APIRequestContext']),
   tracing: (0, _validatorPrimitives.tChannel)(['Tracing'])
 });
 _validatorPrimitives.scheme.BrowserContextBindingCallEvent = (0, _validatorPrimitives.tObject)({
@@ -791,13 +791,15 @@ _validatorPrimitives.scheme.BrowserContextPauseParams = (0, _validatorPrimitives
 _validatorPrimitives.scheme.BrowserContextPauseResult = (0, _validatorPrimitives.tOptional)((0, _validatorPrimitives.tObject)({}));
 _validatorPrimitives.scheme.BrowserContextRecorderSupplementEnableParams = (0, _validatorPrimitives.tObject)({
   language: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tString),
-  startRecording: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tBoolean),
+  mode: (0, _validatorPrimitives.tOptional)((0, _validatorPrimitives.tEnum)(['inspecting', 'recording'])),
   pauseOnNextStatement: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tBoolean),
   launchOptions: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tAny),
   contextOptions: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tAny),
   device: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tString),
   saveStorage: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tString),
-  outputFile: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tString)
+  outputFile: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tString),
+  handleSIGINT: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tBoolean),
+  omitCallTracking: (0, _validatorPrimitives.tOptional)(_validatorPrimitives.tBoolean)
 });
 _validatorPrimitives.scheme.BrowserContextRecorderSupplementEnableResult = (0, _validatorPrimitives.tOptional)((0, _validatorPrimitives.tObject)({}));
 _validatorPrimitives.scheme.BrowserContextNewCDPSessionParams = (0, _validatorPrimitives.tObject)({

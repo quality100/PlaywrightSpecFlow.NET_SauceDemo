@@ -21,7 +21,7 @@ var _helper = require("./helper");
 
 var network = _interopRequireWildcard(require("./network"));
 
-var _page = require("./page");
+var _page4 = require("./page");
 
 var _path = _interopRequireDefault(require("path"));
 
@@ -142,27 +142,45 @@ class BrowserContext extends _instrumentation.SdkObject {
     const paramsCopy = { ...params
     };
 
+    for (const k of Object.keys(paramsCopy)) {
+      const key = k;
+      if (paramsCopy[key] === defaultNewContextParamValues[key]) delete paramsCopy[key];
+    }
+
     for (const key of paramsThatAllowContextReuse) delete paramsCopy[key];
 
     return JSON.stringify(paramsCopy);
   }
 
   async resetForReuse(metadata, params) {
+    var _page, _page2, _page3;
+
     this.setDefaultNavigationTimeout(undefined);
     this.setDefaultTimeout(undefined);
 
-    for (const key of paramsThatAllowContextReuse) this._options[key] = params[key];
+    if (params) {
+      for (const key of paramsThatAllowContextReuse) this._options[key] = params[key];
+    }
 
-    await this._cancelAllRoutesInFlight();
-    const [page, ...otherPages] = this.pages();
+    await this._cancelAllRoutesInFlight(); // Close extra pages early.
 
-    for (const page of otherPages) await page.close(metadata); // Unless I do this early, setting extra http headers below does not respond.
+    let page = this.pages()[0];
+    const [, ...otherPages] = this.pages();
+
+    for (const p of otherPages) await p.close(metadata);
+
+    if (page && page._crashedPromise.isDone()) {
+      await page.close(metadata);
+      page = undefined;
+    } // Unless I do this early, setting extra http headers below does not respond.
 
 
-    await (page === null || page === void 0 ? void 0 : page._frameManager.closeOpenDialogs());
-    await (page === null || page === void 0 ? void 0 : page.mainFrame().goto(metadata, 'about:blank', {
+    await ((_page = page) === null || _page === void 0 ? void 0 : _page._frameManager.closeOpenDialogs()); // Navigate to about:blank first to ensure no page scripts are running after this point.
+
+    await ((_page2 = page) === null || _page2 === void 0 ? void 0 : _page2.mainFrame().goto(metadata, 'about:blank', {
       timeout: 0
     }));
+    await this._clearStorage();
     await this._removeExposedBindings();
     await this._removeInitScripts(); // TODO: following can be optimized to not perform noops.
 
@@ -170,7 +188,9 @@ class BrowserContext extends _instrumentation.SdkObject {
     await this.setExtraHTTPHeaders(this._options.extraHTTPHeaders || []);
     await this.setGeolocation(this._options.geolocation);
     await this.setOffline(!!this._options.offline);
-    await (page === null || page === void 0 ? void 0 : page.resetForReuse(metadata));
+    await this.setUserAgent(this._options.userAgent);
+    await this.clearCookies();
+    await ((_page3 = page) === null || _page3 === void 0 ? void 0 : _page3.resetForReuse(metadata));
   }
 
   _browserClosed() {
@@ -217,7 +237,7 @@ class BrowserContext extends _instrumentation.SdkObject {
       if (page.getBinding(name)) throw new Error(`Function "${name}" has been already registered in one of the pages`);
     }
 
-    const binding = new _page.PageBinding(name, playwrightBinding, needsHandle);
+    const binding = new _page4.PageBinding(name, playwrightBinding, needsHandle);
 
     this._pageBindings.set(name, binding);
 
@@ -280,8 +300,9 @@ class BrowserContext extends _instrumentation.SdkObject {
 
   async _loadDefaultContext(progress) {
     const pages = await this._loadDefaultContextAsIs(progress);
+    const browserName = this._browser.options.name;
 
-    if (this._options.isMobile || this._options.locale) {
+    if (this._options.isMobile && browserName === 'chromium' || this._options.locale && browserName === 'webkit') {
       // Workaround for:
       // - chromium fails to change isMobile for existing page;
       // - webkit fails to change locale for existing page.
@@ -406,7 +427,7 @@ class BrowserContext extends _instrumentation.SdkObject {
     if (metadata.isServerSide) pageDelegate.potentiallyUninitializedPage().markAsServerSideOnly();
     const pageOrError = await pageDelegate.pageOrError();
 
-    if (pageOrError instanceof _page.Page) {
+    if (pageOrError instanceof _page4.Page) {
       if (pageOrError.isClosed()) throw new Error('Page has been closed.');
       return pageOrError;
     }
@@ -453,6 +474,26 @@ class BrowserContext extends _instrumentation.SdkObject {
     return result;
   }
 
+  async _clearStorage() {
+    if (!this._origins.size) return;
+    let page = this.pages()[0];
+    const internalMetadata = (0, _instrumentation.serverSideCallMetadata)();
+    page = page || (await this.newPage(internalMetadata));
+    await page._setServerRequestInterceptor(handler => {
+      handler.fulfill({
+        body: '<html></html>'
+      }).catch(() => {});
+    });
+
+    for (const origin of this._origins) {
+      const frame = page.mainFrame();
+      await frame.goto(internalMetadata, origin);
+      await frame.clearStorageForCurrentOriginBestEffort();
+    }
+
+    await page._setServerRequestInterceptor(undefined); // It is safe to not restore the URL to about:blank since we are doing it in Page::resetForReuse.
+  }
+
   isSettingStorageState() {
     return this._settingStorageState;
   }
@@ -493,7 +534,7 @@ class BrowserContext extends _instrumentation.SdkObject {
     const installInFrame = frame => frame.extendInjectedScript(source, arg).catch(() => {});
 
     const installInPage = page => {
-      page.on(_page.Page.Events.InternalFrameNavigatedToNewDocument, installInFrame);
+      page.on(_page4.Page.Events.InternalFrameNavigatedToNewDocument, installInFrame);
       return Promise.all(page.frames().map(installInFrame));
     };
 
@@ -629,4 +670,16 @@ function normalizeProxySettings(proxy) {
   };
 }
 
-const paramsThatAllowContextReuse = ['colorScheme', 'forcedColors', 'reducedMotion', 'screen', 'viewport'];
+const paramsThatAllowContextReuse = ['colorScheme', 'forcedColors', 'reducedMotion', 'screen', 'userAgent', 'viewport'];
+const defaultNewContextParamValues = {
+  noDefaultViewport: false,
+  ignoreHTTPSErrors: false,
+  javaScriptEnabled: true,
+  bypassCSP: false,
+  offline: false,
+  isMobile: false,
+  hasTouch: false,
+  acceptDownloads: true,
+  strictSelectors: false,
+  serviceWorkers: 'allow'
+};

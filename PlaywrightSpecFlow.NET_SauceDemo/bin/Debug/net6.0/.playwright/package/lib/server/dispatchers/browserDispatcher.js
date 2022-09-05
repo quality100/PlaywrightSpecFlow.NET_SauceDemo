@@ -41,7 +41,6 @@ class BrowserDispatcher extends _dispatcher.Dispatcher {
       name: browser.options.name
     }, true);
     this._type_Browser = true;
-    this._contextForReuse = void 0;
     this.addObjectListener(_browser.Browser.Events.Disconnected, () => this._didClose());
   }
 
@@ -57,32 +56,9 @@ class BrowserDispatcher extends _dispatcher.Dispatcher {
       context: new _browserContextDispatcher.BrowserContextDispatcher(this._scope, context)
     };
   }
-  /**
-   * Used for inner loop scenarios where user would like to preserve the browser window, opened page and devtools instance.
-   */
-
 
   async newContextForReuse(params, metadata) {
-    const hash = _browserContext.BrowserContext.reusableContextHash(params);
-
-    if (!this._contextForReuse || hash !== this._contextForReuse.hash || !this._contextForReuse.context.canResetForReuse()) {
-      if (this._contextForReuse) await this._contextForReuse.context.close(metadata);
-      this._contextForReuse = {
-        context: await this._object.newContext(metadata, params),
-        hash
-      };
-    } else {
-      const oldContextDispatcher = (0, _dispatcher.existingDispatcher)(this._contextForReuse.context);
-
-      oldContextDispatcher._dispose();
-
-      await this._contextForReuse.context.resetForReuse(metadata, params);
-    }
-
-    const context = new _browserContextDispatcher.BrowserContextDispatcher(this._scope, this._contextForReuse.context);
-    return {
-      context
-    };
+    return newContextForReuse(this._object, this._scope, params, metadata);
   }
 
   async close() {
@@ -147,8 +123,8 @@ class ConnectedBrowserDispatcher extends _dispatcher.Dispatcher {
     };
   }
 
-  newContextForReuse(params, metadata) {
-    throw new Error('Method not implemented.');
+  async newContextForReuse(params, metadata) {
+    return newContextForReuse(this._object, this._scope, params, metadata);
   }
 
   async close() {// Client should not send us Browser.close.
@@ -186,3 +162,21 @@ class ConnectedBrowserDispatcher extends _dispatcher.Dispatcher {
 }
 
 exports.ConnectedBrowserDispatcher = ConnectedBrowserDispatcher;
+
+async function newContextForReuse(browser, scope, params, metadata) {
+  const {
+    context,
+    needsReset
+  } = await browser.newContextForReuse(params, metadata);
+
+  if (needsReset) {
+    const oldContextDispatcher = (0, _dispatcher.existingDispatcher)(context);
+    if (oldContextDispatcher) oldContextDispatcher._dispose();
+    await context.resetForReuse(metadata, params);
+  }
+
+  const contextDispatcher = new _browserContextDispatcher.BrowserContextDispatcher(scope, context);
+  return {
+    context: contextDispatcher
+  };
+}

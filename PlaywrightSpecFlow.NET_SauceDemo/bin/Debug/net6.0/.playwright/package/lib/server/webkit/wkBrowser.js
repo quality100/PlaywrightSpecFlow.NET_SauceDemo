@@ -324,6 +324,12 @@ class WKBrowserContext extends _browserContext.BrowserContext {
     for (const page of this.pages()) await page._delegate.updateExtraHTTPHeaders();
   }
 
+  async setUserAgent(userAgent) {
+    this._options.userAgent = userAgent;
+
+    for (const page of this.pages()) await page._delegate.updateUserAgent();
+  }
+
   async setOffline(offline) {
     this._options.offline = offline;
 

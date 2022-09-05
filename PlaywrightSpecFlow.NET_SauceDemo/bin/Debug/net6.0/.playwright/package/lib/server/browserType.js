@@ -147,7 +147,8 @@ class BrowserType extends _instrumentation.SdkObject {
       proxy: options.proxy,
       protocolLogger,
       browserLogsCollector,
-      wsEndpoint: options.useWebSocket ? transport.wsEndpoint : undefined
+      wsEndpoint: options.useWebSocket ? transport.wsEndpoint : undefined,
+      originalLaunchOptions: options
     };
     if (persistent) (0, _browserContext.validateBrowserContextOptions)(persistent, browserOptions);
     copyTestHooks(options, browserOptions);

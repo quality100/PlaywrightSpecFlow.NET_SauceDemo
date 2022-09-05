@@ -98,6 +98,19 @@ class Dispatcher extends _events.EventEmitter {
     this._eventListeners.push(_eventsHelper.eventsHelper.addEventListener(this._object, eventName, handler));
   }
 
+  adopt(child) {
+    (0, _utils.assert)(this._isScope);
+    const oldParent = child._parent;
+
+    oldParent._dispatchers.delete(child._guid);
+
+    this._dispatchers.set(child._guid, child);
+
+    child._parent = this;
+
+    this._connection.sendAdopt(this, child);
+  }
+
   _dispatchEvent(method, params) {
     if (this._disposed) {
       if ((0, _utils.isUnderTest)()) throw new Error(`${this._guid} is sending "${String(method)}" event after being disposed`); // Just ignore this event outside of tests.
@@ -111,7 +124,7 @@ class Dispatcher extends _events.EventEmitter {
   }
 
   _dispose() {
-    (0, _utils.assert)(!this._disposed);
+    (0, _utils.assert)(!this._disposed, `${this._guid} is disposed more than once`);
     this._disposed = true;
 
     _eventsHelper.eventsHelper.removeEventListeners(this._eventListeners); // Clean up from parent and connection.
@@ -199,6 +212,12 @@ class DispatcherConnection {
       initializer,
       guid
     }, sdkObject);
+  }
+
+  sendAdopt(parent, dispatcher) {
+    this._sendMessageToClient(parent._guid, dispatcher._type, '__adopt__', {
+      guid: dispatcher._guid
+    });
   }
 
   sendDispose(dispatcher) {

@@ -242,7 +242,8 @@ class Electron extends _instrumentation.SdkObject {
         browserLogsCollector,
         artifactsDir,
         downloadsPath: artifactsDir,
-        tracesDir: artifactsDir
+        tracesDir: artifactsDir,
+        originalLaunchOptions: {}
       };
       (0, _browserContext.validateBrowserContextOptions)(contextOptions, browserOptions);
       const browser = await _crBrowser.CRBrowser.connect(chromeTransport, browserOptions);

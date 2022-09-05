@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WebSocketDispatcher = exports.RouteDispatcher = exports.ResponseDispatcher = exports.RequestDispatcher = exports.APIRequestContextDispatcher = void 0;
 
-var _fetch = require("../fetch");
-
 var _network = require("../network");
 
 var _dispatcher = require("./dispatcher");
@@ -201,14 +199,15 @@ class APIRequestContextDispatcher extends _dispatcher.Dispatcher {
     return request ? APIRequestContextDispatcher.from(scope, request) : undefined;
   }
 
-  constructor(scope, request) {
-    super(scope, request, 'APIRequestContext', {
-      tracing: _tracingDispatcher.TracingDispatcher.from(scope, request.tracing())
+  constructor(parentScope, request) {
+    // We will reparent these to the context below.
+    const tracing = _tracingDispatcher.TracingDispatcher.from(parentScope, request.tracing());
+
+    super(parentScope, request, 'APIRequestContext', {
+      tracing
     }, true);
     this._type_APIRequestContext = true;
-    request.once(_fetch.APIRequestContext.Events.Dispose, () => {
-      if (!this._disposed) super._dispose();
-    });
+    this.adopt(tracing);
   }
 
   async storageState(params) {

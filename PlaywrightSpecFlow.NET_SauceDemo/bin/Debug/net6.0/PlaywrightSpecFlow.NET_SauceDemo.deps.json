@@ -13,7 +13,8 @@
           "Microsoft.Extensions.Configuration": "7.0.0-preview.7.22375.6",
           "Microsoft.Extensions.Configuration.Json": "6.0.0",
           "Microsoft.NET.Test.Sdk": "17.0.0",
-          "Microsoft.Playwright": "1.24.1",
+          "Microsoft.Playwright": "1.25.0",
+          "Microsoft.Playwright.TestAdapter": "1.25.0",
           "NUnit3TestAdapter": "4.1.0",
           "SpecFlow.Assist.Dynamic": "1.4.2",
           "SpecFlow.NUnit": "3.9.22",
@@ -551,7 +552,7 @@
       },
       "Microsoft.NETCore.Platforms/2.0.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
-      "Microsoft.Playwright/1.24.1": {
+      "Microsoft.Playwright/1.25.0": {
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0",
@@ -559,14 +560,26 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Playwright.dll": {
-            "assemblyVersion": "1.24.1.0",
-            "fileVersion": "1.24.1.0"
+            "assemblyVersion": "1.25.0.0",
+            "fileVersion": "1.25.0.0"
           }
         }
       },
-      "Microsoft.TestPlatform.ObjectModel/17.0.0": {
+      "Microsoft.Playwright.TestAdapter/1.25.0": {
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0",
+          "Microsoft.Playwright": "1.25.0",
+          "Microsoft.TestPlatform.ObjectModel": "17.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Playwright.TestAdapter.dll": {
+            "assemblyVersion": "1.25.0.0",
+            "fileVersion": "1.25.0.0"
+          }
+        }
+      },
+      "Microsoft.TestPlatform.ObjectModel/17.3.0": {
+        "dependencies": {
+          "NuGet.Frameworks": "5.11.0",
           "System.Reflection.Metadata": "1.6.0"
         },
         "runtime": {
@@ -666,7 +679,7 @@
       },
       "Microsoft.TestPlatform.TestHost/17.0.0": {
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "17.0.0",
+          "Microsoft.TestPlatform.ObjectModel": "17.3.0",
           "Newtonsoft.Json": "11.0.2"
         },
         "runtime": {
@@ -824,11 +837,11 @@
           }
         }
       },
-      "NuGet.Frameworks/5.0.0": {
+      "NuGet.Frameworks/5.11.0": {
         "runtime": {
           "lib/netstandard2.0/NuGet.Frameworks.dll": {
-            "assemblyVersion": "5.0.0.6",
-            "fileVersion": "5.0.0.5923"
+            "assemblyVersion": "5.11.0.10",
+            "fileVersion": "5.11.0.10"
           }
         }
       },
@@ -1823,19 +1836,26 @@
       "path": "microsoft.netcore.targets/1.1.0",
       "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
     },
-    "Microsoft.Playwright/1.24.1": {
+    "Microsoft.Playwright/1.25.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-hlALKlxoCLGxR24VatPikNpMMKdt7ZDkU1teAOaLb1iwDoyLqihQBdyq8vUB4p3x6+R+Z0Lt+JD8gUUERAuFfQ==",
-      "path": "microsoft.playwright/1.24.1",
-      "hashPath": "microsoft.playwright.1.24.1.nupkg.sha512"
+      "sha512": "sha512-vS/GbdBdOF6TnnsO7uugxo2eNpV9rAI/OqikQa8ioS9xFpLnPLIQQQZh7nIR/U+2jrfIWszf6QLMDeVqjhMEQw==",
+      "path": "microsoft.playwright/1.25.0",
+      "hashPath": "microsoft.playwright.1.25.0.nupkg.sha512"
     },
-    "Microsoft.TestPlatform.ObjectModel/17.0.0": {
+    "Microsoft.Playwright.TestAdapter/1.25.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-WMugCdPkA8U/BsSRc+3RN+DXcaYSDvp/s0MofVld08iF1O5fek4iKecygk6NruNf1rgJsv4LK71mrwbyeqhzHA==",
-      "path": "microsoft.testplatform.objectmodel/17.0.0",
-      "hashPath": "microsoft.testplatform.objectmodel.17.0.0.nupkg.sha512"
+      "sha512": "sha512-yW9LiDWStpIC4RWRj6eS31TAAyhZGpMeum7G1gy0pO9pOKUY99zPjkF91DlqXHpvPBSwj0tFM9eUqz964M97vg==",
+      "path": "microsoft.playwright.testadapter/1.25.0",
+      "hashPath": "microsoft.playwright.testadapter.1.25.0.nupkg.sha512"
+    },
+    "Microsoft.TestPlatform.ObjectModel/17.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6NRzi6QbmWV49Psf8A9z1LTJU4nBrlJdCcDOUyD4Ttm1J2wvksu98GlV+52CkxtpgNsUjGr9Mv1Rbb1/dB06yQ==",
+      "path": "microsoft.testplatform.objectmodel/17.3.0",
+      "hashPath": "microsoft.testplatform.objectmodel.17.3.0.nupkg.sha512"
     },
     "Microsoft.TestPlatform.TestHost/17.0.0": {
       "type": "package",
@@ -1858,12 +1878,12 @@
       "path": "newtonsoft.json/11.0.2",
       "hashPath": "newtonsoft.json.11.0.2.nupkg.sha512"
     },
-    "NuGet.Frameworks/5.0.0": {
+    "NuGet.Frameworks/5.11.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-c5JVjuVAm4f7E9Vj+v09Z9s2ZsqFDjBpcsyS3M9xRo0bEdm/LVZSzLxxNvfvAwRiiE8nwe1h2G4OwiwlzFKXlA==",
-      "path": "nuget.frameworks/5.0.0",
-      "hashPath": "nuget.frameworks.5.0.0.nupkg.sha512"
+      "sha512": "sha512-eaiXkUjC4NPcquGWzAGMXjuxvLwc6XGKMptSyOGQeT0X70BUZObuybJFZLA0OfTdueLd3US23NBPTBb6iF3V1Q==",
+      "path": "nuget.frameworks/5.11.0",
+      "hashPath": "nuget.frameworks.5.11.0.nupkg.sha512"
     },
     "NUnit/3.13.2": {
       "type": "package",

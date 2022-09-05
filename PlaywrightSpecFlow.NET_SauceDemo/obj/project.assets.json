@@ -635,7 +635,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.Playwright/1.24.1": {
+      "Microsoft.Playwright/1.25.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
@@ -652,10 +652,23 @@
           "buildTransitive/Microsoft.Playwright.targets": {}
         }
       },
-      "Microsoft.TestPlatform.ObjectModel/17.0.0": {
+      "Microsoft.Playwright.TestAdapter/1.25.0": {
         "type": "package",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0",
+          "Microsoft.Playwright": "1.25.0",
+          "Microsoft.TestPlatform.ObjectModel": "17.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Playwright.TestAdapter.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Playwright.TestAdapter.dll": {}
+        }
+      },
+      "Microsoft.TestPlatform.ObjectModel/17.3.0": {
+        "type": "package",
+        "dependencies": {
+          "NuGet.Frameworks": "5.11.0",
           "System.Reflection.Metadata": "1.6.0"
         },
         "compile": {
@@ -922,7 +935,7 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
-      "NuGet.Frameworks/5.0.0": {
+      "NuGet.Frameworks/5.11.0": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NuGet.Frameworks.dll": {}
@@ -3029,10 +3042,10 @@
         "runtime.json"
       ]
     },
-    "Microsoft.Playwright/1.24.1": {
-      "sha512": "hlALKlxoCLGxR24VatPikNpMMKdt7ZDkU1teAOaLb1iwDoyLqihQBdyq8vUB4p3x6+R+Z0Lt+JD8gUUERAuFfQ==",
+    "Microsoft.Playwright/1.25.0": {
+      "sha512": "vS/GbdBdOF6TnnsO7uugxo2eNpV9rAI/OqikQa8ioS9xFpLnPLIQQQZh7nIR/U+2jrfIWszf6QLMDeVqjhMEQw==",
       "type": "package",
-      "path": "microsoft.playwright/1.24.1",
+      "path": "microsoft.playwright/1.25.0",
       "files": [
         ".nupkg.metadata",
         ".playwright/node/LICENSE",
@@ -3279,6 +3292,7 @@
         ".playwright/package/lib/utils/isomorphic/stringUtils.js",
         ".playwright/package/lib/utils/linuxUtils.js",
         ".playwright/package/lib/utils/manualPromise.js",
+        ".playwright/package/lib/utils/mimeType.js",
         ".playwright/package/lib/utils/multimap.js",
         ".playwright/package/lib/utils/processLauncher.js",
         ".playwright/package/lib/utils/processLauncherCleanupEntrypoint.js",
@@ -3324,14 +3338,27 @@
         "icon.png",
         "lib/netstandard2.0/Microsoft.Playwright.dll",
         "lib/netstandard2.0/Microsoft.Playwright.xml",
-        "microsoft.playwright.1.24.1.nupkg.sha512",
+        "microsoft.playwright.1.25.0.nupkg.sha512",
         "microsoft.playwright.nuspec"
       ]
     },
-    "Microsoft.TestPlatform.ObjectModel/17.0.0": {
-      "sha512": "WMugCdPkA8U/BsSRc+3RN+DXcaYSDvp/s0MofVld08iF1O5fek4iKecygk6NruNf1rgJsv4LK71mrwbyeqhzHA==",
+    "Microsoft.Playwright.TestAdapter/1.25.0": {
+      "sha512": "yW9LiDWStpIC4RWRj6eS31TAAyhZGpMeum7G1gy0pO9pOKUY99zPjkF91DlqXHpvPBSwj0tFM9eUqz964M97vg==",
       "type": "package",
-      "path": "microsoft.testplatform.objectmodel/17.0.0",
+      "path": "microsoft.playwright.testadapter/1.25.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/netstandard2.0/Microsoft.Playwright.TestAdapter.dll",
+        "microsoft.playwright.testadapter.1.25.0.nupkg.sha512",
+        "microsoft.playwright.testadapter.nuspec"
+      ]
+    },
+    "Microsoft.TestPlatform.ObjectModel/17.3.0": {
+      "sha512": "6NRzi6QbmWV49Psf8A9z1LTJU4nBrlJdCcDOUyD4Ttm1J2wvksu98GlV+52CkxtpgNsUjGr9Mv1Rbb1/dB06yQ==",
+      "type": "package",
+      "path": "microsoft.testplatform.objectmodel/17.3.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3569,7 +3596,7 @@
         "lib/uap10.0/zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
         "lib/uap10.0/zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll",
         "lib/uap10.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "microsoft.testplatform.objectmodel.17.0.0.nupkg.sha512",
+        "microsoft.testplatform.objectmodel.17.3.0.nupkg.sha512",
         "microsoft.testplatform.objectmodel.nuspec"
       ]
     },
@@ -3954,20 +3981,21 @@
         "newtonsoft.json.nuspec"
       ]
     },
-    "NuGet.Frameworks/5.0.0": {
-      "sha512": "c5JVjuVAm4f7E9Vj+v09Z9s2ZsqFDjBpcsyS3M9xRo0bEdm/LVZSzLxxNvfvAwRiiE8nwe1h2G4OwiwlzFKXlA==",
+    "NuGet.Frameworks/5.11.0": {
+      "sha512": "eaiXkUjC4NPcquGWzAGMXjuxvLwc6XGKMptSyOGQeT0X70BUZObuybJFZLA0OfTdueLd3US23NBPTBb6iF3V1Q==",
       "type": "package",
-      "path": "nuget.frameworks/5.0.0",
+      "path": "nuget.frameworks/5.11.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "icon.png",
         "lib/net40/NuGet.Frameworks.dll",
         "lib/net40/NuGet.Frameworks.xml",
         "lib/net472/NuGet.Frameworks.dll",
         "lib/net472/NuGet.Frameworks.xml",
         "lib/netstandard2.0/NuGet.Frameworks.dll",
         "lib/netstandard2.0/NuGet.Frameworks.xml",
-        "nuget.frameworks.5.0.0.nupkg.sha512",
+        "nuget.frameworks.5.11.0.nupkg.sha512",
         "nuget.frameworks.nuspec"
       ]
     },
@@ -7448,7 +7476,8 @@
       "Microsoft.Extensions.Configuration >= 7.0.0-preview.7.22375.6",
       "Microsoft.Extensions.Configuration.Json >= 6.0.0",
       "Microsoft.NET.Test.Sdk >= 17.0.0",
-      "Microsoft.Playwright >= 1.24.1",
+      "Microsoft.Playwright >= 1.25.0",
+      "Microsoft.Playwright.TestAdapter >= 1.25.0",
       "NUnit3TestAdapter >= 4.1.0",
       "SpecFlow.Assist.Dynamic >= 1.4.2",
       "SpecFlow.NUnit >= 3.9.22",
@@ -7515,7 +7544,11 @@
           },
           "Microsoft.Playwright": {
             "target": "Package",
-            "version": "[1.24.1, )"
+            "version": "[1.25.0, )"
+          },
+          "Microsoft.Playwright.TestAdapter": {
+            "target": "Package",
+            "version": "[1.25.0, )"
           },
           "NUnit3TestAdapter": {
             "target": "Package",

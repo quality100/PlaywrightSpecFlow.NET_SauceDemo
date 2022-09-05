@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Chromium = void 0;
+exports.DEFAULT_ARGS = exports.Chromium = void 0;
 
 var _fs = _interopRequireDefault(require("fs"));
 
@@ -138,7 +138,8 @@ class Chromium extends _browserType.BrowserType {
       // does not work at all with proxies on Windows.
       proxy: {
         server: 'per-context'
-      }
+      },
+      originalLaunchOptions: {}
     };
     (0, _browserContext.validateBrowserContextOptions)(persistent, browserOptions);
     progress.throwIfAborted();
@@ -348,8 +349,10 @@ exports.Chromium = Chromium;
 const DEFAULT_ARGS = ['--disable-field-trial-config', // https://source.chromium.org/chromium/chromium/src/+/main:testing/variations/README.md
 '--disable-background-networking', '--enable-features=NetworkService,NetworkServiceInProcess', '--disable-background-timer-throttling', '--disable-backgrounding-occluded-windows', '--disable-back-forward-cache', // Avoids surprises like main request not being intercepted during page.goBack().
 '--disable-breakpad', '--disable-client-side-phishing-detection', '--disable-component-extensions-with-background-pages', '--disable-default-apps', '--disable-dev-shm-usage', '--disable-extensions', // AvoidUnnecessaryBeforeUnloadCheckSync - https://github.com/microsoft/playwright/issues/14047
-'--disable-features=ImprovedCookieControls,LazyFrameLoading,GlobalMediaControls,DestroyProfileOnBrowserClose,MediaRouter,DialMediaRouteProvider,AcceptCHFrame,AutoExpandDetailsElement,CertificateTransparencyComponentUpdater,AvoidUnnecessaryBeforeUnloadCheckSync', '--allow-pre-commit-input', '--disable-hang-monitor', '--disable-ipc-flooding-protection', '--disable-popup-blocking', '--disable-prompt-on-repost', '--disable-renderer-backgrounding', '--disable-sync', '--force-color-profile=srgb', '--metrics-recording-only', '--no-first-run', '--enable-automation', '--password-store=basic', '--use-mock-keychain', // See https://chromium-review.googlesource.com/c/chromium/src/+/2436773
+// Translate - https://github.com/microsoft/playwright/issues/16126
+'--disable-features=ImprovedCookieControls,LazyFrameLoading,GlobalMediaControls,DestroyProfileOnBrowserClose,MediaRouter,DialMediaRouteProvider,AcceptCHFrame,AutoExpandDetailsElement,CertificateTransparencyComponentUpdater,AvoidUnnecessaryBeforeUnloadCheckSync,Translate', '--allow-pre-commit-input', '--disable-hang-monitor', '--disable-ipc-flooding-protection', '--disable-popup-blocking', '--disable-prompt-on-repost', '--disable-renderer-backgrounding', '--disable-sync', '--force-color-profile=srgb', '--metrics-recording-only', '--no-first-run', '--enable-automation', '--password-store=basic', '--use-mock-keychain', // See https://chromium-review.googlesource.com/c/chromium/src/+/2436773
 '--no-service-autorun', '--export-tagged-pdf'];
+exports.DEFAULT_ARGS = DEFAULT_ARGS;
 
 async function urlToWSEndpoint(progress, endpointURL) {
   if (endpointURL.startsWith('ws')) return endpointURL;

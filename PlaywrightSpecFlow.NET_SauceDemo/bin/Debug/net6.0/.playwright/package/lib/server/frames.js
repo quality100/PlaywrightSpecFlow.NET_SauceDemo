@@ -280,7 +280,12 @@ class FrameManager {
   frameDetached(frameId) {
     const frame = this._frames.get(frameId);
 
-    if (frame) this._removeFramesRecursively(frame);
+    if (frame) {
+      this._removeFramesRecursively(frame); // Recalculate subtree lifecycle for the whole tree - it should not be that big.
+
+
+      this._page.mainFrame()._recalculateLifecycle();
+    }
   }
 
   frameStoppedLoading(frameId) {
@@ -566,7 +571,7 @@ class Frame extends _instrumentation.SdkObject {
     this._firedLifecycleEvents.clear(); // Recalculate subtree lifecycle for the whole tree - it should not be that big.
 
 
-    this._page.mainFrame()._recalculateLifecycle(); // Keep the current navigation request if any.
+    this._page.mainFrame()._recalculateLifecycle(this); // Keep the current navigation request if any.
 
 
     this._inflightRequests = new Set(Array.from(this._inflightRequests).filter(request => request === this._currentDocument.request));
@@ -627,17 +632,23 @@ class Frame extends _instrumentation.SdkObject {
     });
   }
 
-  _recalculateLifecycle() {
+  _recalculateLifecycle(frameThatAllowsRemovingLifecycleEvents) {
     const events = new Set(this._firedLifecycleEvents);
 
     for (const child of this._childFrames) {
-      child._recalculateLifecycle(); // We require a particular lifecycle event to be fired in the whole
+      child._recalculateLifecycle(frameThatAllowsRemovingLifecycleEvents); // We require a particular lifecycle event to be fired in the whole
       // frame subtree, and then consider it done.
 
 
       for (const event of events) {
         if (!child._subtreeLifecycleEvents.has(event)) events.delete(event);
       }
+    }
+
+    if (frameThatAllowsRemovingLifecycleEvents !== this) {
+      // Usually, lifecycle events are fired once and not removed after that, so we keep existing ones.
+      // However, when we clear them right before a new commit, this is allowed for a particular frame.
+      for (const event of this._subtreeLifecycleEvents) events.add(event);
     }
 
     const mainFrame = this._page.mainFrame();
@@ -1310,8 +1321,19 @@ class Frame extends _instrumentation.SdkObject {
       progress.log(`  checking visibility of "${selector}"`);
       const pair = await this.resolveFrameForSelectorNoWait(selector, options);
       if (!pair) return false;
-      const element = await this._page.selectors.query(pair.frame, pair.info);
-      return element ? await element.isVisible() : false;
+      const context = await pair.frame._context(pair.info.world);
+      const injectedScript = await context.injectedScript();
+      return await injectedScript.evaluate((injected, {
+        parsed,
+        strict
+      }) => {
+        const element = injected.querySelector(parsed, document, strict);
+        const state = element ? injected.elementState(element, 'visible') : false;
+        return state === 'error:notconnected' ? false : state;
+      }, {
+        parsed: pair.info.parsed,
+        strict: pair.info.strict
+      });
     }, this._page._timeoutSettings.timeout({}));
   }
 
@@ -1788,6 +1810,25 @@ class Frame extends _instrumentation.SdkObject {
     } catch (e) {
       throw new Error(`Error: frame navigated while waiting for selector "${selector}"`);
     }
+  }
+
+  async clearStorageForCurrentOriginBestEffort() {
+    const context = await this._utilityContext();
+    await context.evaluate(async () => {
+      // Clean DOMStorage
+      sessionStorage.clear();
+      localStorage.clear(); // Clean Service Workers
+
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map(r => r.unregister())); // Clean IndexedDB
+
+      for (const db of (await ((_indexedDB$databases = (_indexedDB = indexedDB).databases) === null || _indexedDB$databases === void 0 ? void 0 : _indexedDB$databases.call(_indexedDB))) || []) {
+        var _indexedDB$databases, _indexedDB;
+
+        // Do not wait for the callback - it is called on timer in Chromium (slow).
+        if (db.name) indexedDB.deleteDatabase(db.name);
+      }
+    });
   }
 
 }

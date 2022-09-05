@@ -827,3 +827,5 @@ C:\Users\quali\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\PlaywrightSpecFlow
 C:\Users\quali\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\PlaywrightSpecFlow.NET_SauceDemo\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
 C:\Users\quali\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\PlaywrightSpecFlow.NET_SauceDemo\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
 C:\Users\quali\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\PlaywrightSpecFlow.NET_SauceDemo\bin\Debug\net6.0\Microsoft.Net.Http.Headers.dll
+C:\Users\quali\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\PlaywrightSpecFlow.NET_SauceDemo\bin\Debug\net6.0\.playwright\package\lib\utils\mimeType.js
+C:\Users\quali\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\PlaywrightSpecFlow.NET_SauceDemo\bin\Debug\net6.0\Microsoft.Playwright.TestAdapter.dll

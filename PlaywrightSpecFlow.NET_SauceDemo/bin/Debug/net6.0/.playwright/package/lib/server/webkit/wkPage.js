@@ -218,9 +218,7 @@ class WKPage {
     }
 
     const contextOptions = this._browserContext._options;
-    if (contextOptions.userAgent) promises.push(session.send('Page.overrideUserAgent', {
-      value: contextOptions.userAgent
-    }));
+    if (contextOptions.userAgent) promises.push(this.updateUserAgent());
 
     const emulatedMedia = this._page.emulatedMedia();
 
@@ -647,7 +645,7 @@ class WKPage {
       let stack;
 
       if (event.message.stackTrace) {
-        stack = text + '\n' + event.message.stackTrace.map(callFrame => {
+        stack = text + '\n' + event.message.stackTrace.callFrames.map(callFrame => {
           return `    at ${callFrame.functionName || 'unknown'} (${callFrame.url}:${callFrame.lineNumber}:${callFrame.columnNumber})`;
         }).join('\n');
       } else {
@@ -799,6 +797,14 @@ class WKPage {
 
   async updateEmulatedViewportSize() {
     await this._updateViewport();
+  }
+
+  async updateUserAgent() {
+    const contextOptions = this._browserContext._options;
+
+    this._updateState('Page.overrideUserAgent', {
+      value: contextOptions.userAgent
+    });
   }
 
   async bringToFront() {

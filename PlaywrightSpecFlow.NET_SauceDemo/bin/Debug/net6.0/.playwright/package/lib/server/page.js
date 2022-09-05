@@ -148,24 +148,19 @@ class Page extends _instrumentation.SdkObject {
 
   async resetForReuse(metadata) {
     this.setDefaultNavigationTimeout(undefined);
-    this.setDefaultTimeout(undefined); // Do this first in order to unfreeze evaluates.
-
-    await this._frameManager.closeOpenDialogs();
+    this.setDefaultTimeout(undefined);
     await this._removeExposedBindings();
-    await this._removeInitScripts(); // TODO: handle pending routes.
-
+    await this._removeInitScripts();
     await this.setClientRequestInterceptor(undefined);
     await this._setServerRequestInterceptor(undefined);
-    await this.setFileChooserIntercepted(false);
+    await this.setFileChooserIntercepted(false); // Re-navigate once init scripts are gone.
+
     await this.mainFrame().goto(metadata, 'about:blank');
     this._emulatedSize = undefined;
     this._emulatedMedia = {};
     this._extraHTTPHeaders = undefined;
     this._interceptFileChooser = false;
-    await this._delegate.updateEmulatedViewportSize();
-    await this._delegate.updateEmulateMedia();
-    await this._delegate.updateExtraHTTPHeaders();
-    await this._delegate.updateFileChooserInterception();
+    await Promise.all([this._delegate.updateEmulatedViewportSize(true), this._delegate.updateEmulateMedia(), this._delegate.updateFileChooserInterception()]);
   }
 
   async _doSlowMo() {

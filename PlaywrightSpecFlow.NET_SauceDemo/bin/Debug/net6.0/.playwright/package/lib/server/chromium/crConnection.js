@@ -224,7 +224,9 @@ class CRSession extends _events.EventEmitter {
       if (object.error) callback.reject(createProtocolError(callback.error, callback.method, object.error));else callback.resolve(object.result);
     } else if (object.id && ((_object$error = object.error) === null || _object$error === void 0 ? void 0 : _object$error.code) === -32001) {// Message to a closed session, just ignore it.
     } else {
-      (0, _utils.assert)(!object.id);
+      var _object$error2;
+
+      (0, _utils.assert)(!object.id, (object === null || object === void 0 ? void 0 : (_object$error2 = object.error) === null || _object$error2 === void 0 ? void 0 : _object$error2.message) || undefined);
       Promise.resolve().then(() => {
         if (this._eventListener) this._eventListener(object.method, object.params);
         this.emit(object.method, object.params);

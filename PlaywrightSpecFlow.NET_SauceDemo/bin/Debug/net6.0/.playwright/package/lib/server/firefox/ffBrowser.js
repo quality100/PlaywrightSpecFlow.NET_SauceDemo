@@ -379,6 +379,13 @@ class FFBrowserContext extends _browserContext.BrowserContext {
     });
   }
 
+  async setUserAgent(userAgent) {
+    await this._browser._connection.send('Browser.setUserAgentOverride', {
+      browserContextId: this._browserContextId,
+      userAgent: userAgent || null
+    });
+  }
+
   async setOffline(offline) {
     this._options.offline = offline;
     await this._browser._connection.send('Browser.setOnlineOverride', {

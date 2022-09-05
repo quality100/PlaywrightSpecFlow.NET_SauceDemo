@@ -10,12 +10,13 @@ public class ProductPage
     private ILocator productPrice => _page.Locator(".inventory_details_price");
     private ILocator productDescription => _page.Locator(".inventory_details_desc");
     private ILocator cartIcon => _page.Locator(".shopping_cart_link");
-    private ILocator addToCartButton => _page.Locator("#add-to-cart-sauce-labs-bike-light");
+    private ILocator cartIconBadge => _page.Locator("span.shopping_cart_badge");
+    private ILocator addToCartButton_or_Remove => _page.Locator("//button[contains(@class, 'btn_inventory')]");
     
     public string getProductLabel()
     {
         return productLabel.InnerTextAsync().Result;
-    }
+    } 
 
     public string getProductPrice()
     {
@@ -34,6 +35,17 @@ public class ProductPage
 
     public async Task clickAddtoCartButton()
     {
-        await addToCartButton.ClickAsync();
+        await addToCartButton_or_Remove.ClickAsync();
     }
+
+    public async Task<ILocator> getCartBadge()
+    {
+        return cartIconBadge;
+    }
+
+    public async Task<string> getCartBadgeValue()
+    {
+        return cartIconBadge.TextContentAsync().GetAwaiter().GetResult();
+    }
+
 }
