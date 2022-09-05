@@ -14,7 +14,7 @@ namespace SpecFlowSauceDemo_.NET.Drivers
         }
 
         public IPage Page => _page.Result;
-    
+
         public async Task<IPage> InitializePlaywright()
         {
             var playwright = await Playwright.CreateAsync();
@@ -29,6 +29,7 @@ namespace SpecFlowSauceDemo_.NET.Drivers
         /*public void Dispose()
         {
             _browser?.CloseAsync();
-        }*/
+        }
+    }*/
     }
 }

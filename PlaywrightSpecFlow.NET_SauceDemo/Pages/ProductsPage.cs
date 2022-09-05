@@ -20,6 +20,8 @@ public class ProductsPage
     private ILocator _randomProductLabel => _page.Locator("//div[@class = 'inventory_item_name' and contains(text(), '" + _scenarioContext["label"] + "')]");
     private ILocator _productDescription => _page.Locator("//div[contains(text(), '" + _scenarioContext["label"] +
                                                           "')]/ancestor::div[@class ='inventory_item_description']//div[@class = 'inventory_item_desc']");
+    private ILocator _productPrice => _page.Locator("//div[contains(text(), '" + _scenarioContext["label"] +
+                                                    "')]/ancestor::div[@class ='inventory_item_description']//div[@class = 'inventory_item_price']");
     private ILocator _productLabels => _page.Locator("(//div[@class = 'inventory_item_name'])");
     
     
@@ -27,6 +29,12 @@ public class ProductsPage
     {
         _scenarioContext["description"] = _productDescription.InnerTextAsync().Result;
         return (string)_scenarioContext["description"];
+    }
+
+    public async Task<string> getProductPriceAsync()
+    {
+        _scenarioContext["price"] = _productPrice.InnerTextAsync().Result;
+        return (string)_scenarioContext["price"];
     }
 
     public string getProductLabelText() 
@@ -57,6 +65,7 @@ public class ProductsPage
     {
         await getLabel();
         await getProductDescriptionTextAsync();
+        await getProductPriceAsync();
         await _randomProductLabel.ClickAsync();
     }
 }

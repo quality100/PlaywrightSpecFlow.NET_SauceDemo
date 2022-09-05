@@ -1,9 +1,7 @@
 ﻿Feature: OrderProductTest
 	Background: 
 		Given I navigate to Sauce Demo
-		When I successfully looged in
-		| username      | password     |
-		| standard_user | secret_sauce |
+		When I successfully logged in
 
 @mytag
 Scenario: Order single product

@@ -25,7 +25,7 @@ public class LoginTestSteps
     [Given(@"I navigate to Sauce Demo")]
     public void GivenINavigateToSauceDemo()
     {
-         _driver.Page.GotoAsync("https://www.saucedemo.com/");
+         _driver.Page.GotoAsync(ReadProperties.GetInstance().GetBaseURL());
     }
 
     [When(@"I enter following login details")]
@@ -34,6 +34,12 @@ public class LoginTestSteps
         dynamic data = table.CreateDynamicInstance();
         await _loginPage.TypeUsername((string)data.username);
         await _loginPage.TypePassword((string)data.password);
+    }
+    [When(@"I enter following login details from file")]
+    public async Task EnterLoginDetailsFromFile()
+    {
+        await _loginPage.TypeUsername(ReadProperties.GetInstance().GetUsername());
+        await _loginPage.TypePassword(ReadProperties.GetInstance().GetPassword());
     }
 
     [When(@"I click Login button")]
@@ -89,10 +95,11 @@ public class LoginTestSteps
         }
     }
 
-    [When(@"I successfully looged in")]
-    public async Task WhenISuccessfullyLoogedIn(Table table)
+    [When(@"I successfully logged in")]
+    public async Task WhenISuccessfullyLoggedIn()
     {
-        await WhenIEnterFollowingLoginDetails(table);
+        await EnterLoginDetailsFromFile();
+        await _driver.Page.PauseAsync();
         await WhenIClickLoginButton();
        // await _driver.Page.PauseAsync();
     }
