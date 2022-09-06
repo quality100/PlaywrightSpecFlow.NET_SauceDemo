@@ -212,19 +212,26 @@ class Connection extends _events.EventEmitter {
       return;
     }
 
+    const object = this._objects.get(guid);
+
+    if (!object) throw new Error(`Cannot find object to "${method}": ${guid}`);
+
+    if (method === '__adopt__') {
+      const child = this._objects.get(params.guid);
+
+      if (!child) throw new Error(`Unknown new child: ${params.guid}`);
+
+      object._adopt(child);
+
+      return;
+    }
+
     if (method === '__dispose__') {
-      const object = this._objects.get(guid);
-
-      if (!object) throw new Error(`Cannot find object to dispose: ${guid}`);
-
       object._dispose();
 
       return;
     }
 
-    const object = this._objects.get(guid);
-
-    if (!object) throw new Error(`Cannot find object to emit "${method}": ${guid}`);
     const validator = (0, _validator.findValidator)(object._type, method, 'Event');
 
     object._channel.emit(method, validator(params, '', {
@@ -244,9 +251,10 @@ class Connection extends _events.EventEmitter {
   }
 
   _tChannelImplFromWire(names, arg, path, context) {
-    if (arg && typeof arg === 'object' && typeof arg.guid === 'string' && this._objects.has(arg.guid)) {
+    if (arg && typeof arg === 'object' && typeof arg.guid === 'string') {
       const object = this._objects.get(arg.guid);
 
+      if (!object) throw new Error(`Object with guid ${arg.guid} was not bound in the connection`);
       if (names !== '*' && !names.includes(object._type)) throw new _validator.ValidationError(`${path}: expected channel ${names.toString()}`);
       return object._channel;
     }

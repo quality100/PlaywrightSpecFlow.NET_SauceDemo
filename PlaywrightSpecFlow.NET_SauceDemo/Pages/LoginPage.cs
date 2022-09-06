@@ -18,6 +18,39 @@ public class LoginPage
     public async Task ClickLoginButton() => await _loginButton.ClickAsync();
     public async Task ClickCloseErrorMessageButton() => await _closeErrorMessageButton.ClickAsync();
 
+    private string usernameInputSelector = "#user-name";
+    private string passwordInputSelector = "#password";
+    private string loginButtonSelector = "#login-button ";
+
+    public async Task<ILocator> getUsernameInputLocator()
+    {
+        return _page.Locator(this.usernameInputSelector);
+    }
+    public async Task<ILocator> getPasswordInputLocator()
+    {
+        return _page.Locator(this.passwordInputSelector);
+    }
+    public async Task<ILocator> getLoginBtnLocator()
+    {
+        return _page.Locator(this.loginButtonSelector);
+    }
+    public async Task loginBtnClickAsync()
+    {
+        await getLoginBtnLocator().Result.ClickAsync();
+    }
+
+    public async Task fillUsernameInputAsync(string username)
+    {
+        await getUsernameInputLocator().Result.FillAsync(username);
+    }
+
+    public async Task fillPasswordInputAsync(string password)
+    {
+        await getPasswordInputLocator().Result.FillAsync(password);
+    }
+
+
+
     public string? getInvalidCredentialsErrorMessage()
     {
         return _errorMessage.TextContentAsync().Result;

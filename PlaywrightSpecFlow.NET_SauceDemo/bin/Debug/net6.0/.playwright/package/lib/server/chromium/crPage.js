@@ -232,8 +232,8 @@ class CRPage {
     await this._forAllFrameSessions(frame => frame._updateHttpCredentials(false));
   }
 
-  async updateEmulatedViewportSize() {
-    await this._mainFrameSession._updateViewport();
+  async updateEmulatedViewportSize(preserveWindowBoundaries) {
+    await this._mainFrameSession._updateViewport(preserveWindowBoundaries);
   }
 
   async bringToFront() {
@@ -242,6 +242,10 @@ class CRPage {
 
   async updateEmulateMedia() {
     await this._forAllFrameSessions(frame => frame._updateEmulateMedia());
+  }
+
+  async updateUserAgent() {
+    await this._forAllFrameSessions(frame => frame._updateUserAgent());
   }
 
   async updateRequestInterception() {
@@ -455,6 +459,7 @@ class FrameSession {
     this._screencastClients = new Set();
     this._evaluateOnNewDocumentIdentifiers = [];
     this._exposedBindingNames = [];
+    this._metricsOverride = void 0;
     this._client = client;
     this._crPage = crPage;
     this._page = crPage._page;
@@ -586,10 +591,7 @@ class FrameSession {
       if (options.javaScriptEnabled === false) promises.push(this._client.send('Emulation.setScriptExecutionDisabled', {
         value: true
       }));
-      if (options.userAgent || options.locale) promises.push(this._client.send('Emulation.setUserAgentOverride', {
-        userAgent: options.userAgent || '',
-        acceptLanguage: options.locale
-      }));
+      if (options.userAgent || options.locale) promises.push(this._updateUserAgent());
       if (options.locale) promises.push(emulateLocale(this._client, options.locale));
       if (options.timezoneId) promises.push(emulateTimezone(this._client, options.timezoneId));
       if (!this._crPage._browserContext._browser.options.headful) promises.push(this._setDefaultFontFamilies(this._client));
@@ -959,6 +961,8 @@ class FrameSession {
   }
 
   async _onFileChooserOpened(event) {
+    if (!event.backendNodeId) return;
+
     const frame = this._page._frameManager.frame(event.frameId);
 
     if (!frame) return;
@@ -1081,7 +1085,7 @@ class FrameSession {
     if (!initial || credentials) await this._networkManager.authenticate(credentials);
   }
 
-  async _updateViewport() {
+  async _updateViewport(preserveWindowBoundaries) {
     if (this._crPage._browserContext._browser.isClank()) return;
     (0, _utils.assert)(this._isMainFrame());
     const options = this._crPage._browserContext._options;
@@ -1092,7 +1096,7 @@ class FrameSession {
     const viewportSize = emulatedSize.viewport;
     const screenSize = emulatedSize.screen;
     const isLandscape = viewportSize.width > viewportSize.height;
-    const promises = [this._client.send('Emulation.setDeviceMetricsOverride', {
+    const metricsOverride = {
       mobile: !!options.isMobile,
       width: viewportSize.width,
       height: viewportSize.height,
@@ -1105,10 +1109,13 @@ class FrameSession {
       } : {
         angle: 0,
         type: 'portraitPrimary'
-      }
-    })];
+      },
+      dontSetVisibleSize: preserveWindowBoundaries
+    };
+    if (JSON.stringify(this._metricsOverride) === JSON.stringify(metricsOverride)) return;
+    const promises = [this._client.send('Emulation.setDeviceMetricsOverride', metricsOverride)];
 
-    if (this._windowId) {
+    if (!preserveWindowBoundaries && this._windowId) {
       let insets = {
         width: 0,
         height: 0
@@ -1146,6 +1153,7 @@ class FrameSession {
     }
 
     await Promise.all(promises);
+    this._metricsOverride = metricsOverride;
   }
 
   async windowBounds() {
@@ -1184,6 +1192,14 @@ class FrameSession {
     await this._client.send('Emulation.setEmulatedMedia', {
       media: emulatedMedia.media || '',
       features
+    });
+  }
+
+  async _updateUserAgent() {
+    const options = this._crPage._browserContext._options;
+    await this._client.send('Emulation.setUserAgentOverride', {
+      userAgent: options.userAgent || '',
+      acceptLanguage: options.locale
     });
   }
 

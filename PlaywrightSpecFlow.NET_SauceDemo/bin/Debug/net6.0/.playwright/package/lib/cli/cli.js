@@ -69,8 +69,9 @@ commandWithOpenOptions('open [url]', 'open page in browser specified via -b, --b
 }).addHelpText('afterAll', `
 Examples:
 
-  $ open  $ open -b webkit https://example.com`);
-commandWithOpenOptions('codegen [url]', 'open page and generate code for user actions', [['-o, --output <file name>', 'saves the generated script to a file'], ['--target <language>', `language to generate, one of javascript, test, python, python-async, pytest, csharp, java`, language()]]).action(function (url, options) {
+  $ open
+  $ open -b webkit https://example.com`);
+commandWithOpenOptions('codegen [url]', 'open page and generate code for user actions', [['-o, --output <file name>', 'saves the generated script to a file'], ['--target <language>', `language to generate, one of javascript, test, python, python-async, pytest, csharp, java`, language()], ['--save-trace <filename>', 'record a trace for the session and save it to a file']]).action(function (url, options) {
   codegen(options, url, options.target, options.output).catch(logErrorAndExit);
 }).addHelpText('afterAll', `
 Examples:
@@ -243,8 +244,8 @@ _utilsBundle.program.command('run-driver', {
 
 _utilsBundle.program.command('run-server', {
   hidden: true
-}).option('--port <port>', 'Server port').option('--path <path>', 'Endpoint Path', '/').option('--max-clients <maxClients>', 'Maximum clients').option('--no-socks-proxy', 'Disable Socks Proxy').action(function (options) {
-  (0, _driver.runServer)(options.port ? +options.port : undefined, options.path, options.maxClients ? +options.maxClients : Infinity, options.socksProxy).catch(logErrorAndExit);
+}).option('--reuse-browser', 'Whether to reuse the browser instance').option('--port <port>', 'Server port').option('--path <path>', 'Endpoint Path', '/').option('--max-clients <maxClients>', 'Maximum clients').option('--no-socks-proxy', 'Disable Socks Proxy').action(function (options) {
+  (0, _driver.runServer)(options.port ? +options.port : undefined, options.path, options.maxClients ? +options.maxClients : Infinity, options.socksProxy, options.reuseBrowser).catch(logErrorAndExit);
 });
 
 _utilsBundle.program.command('print-api-json', {
@@ -279,11 +280,7 @@ if (!process.env.PW_LANG_NAME) {
   } catch {}
 
   if (playwrightTestPackagePath) {
-    require(playwrightTestPackagePath).addTestCommand(_utilsBundle.program);
-
-    require(playwrightTestPackagePath).addShowReportCommand(_utilsBundle.program);
-
-    require(playwrightTestPackagePath).addListFilesCommand(_utilsBundle.program);
+    require(playwrightTestPackagePath).addTestCommands(_utilsBundle.program);
   } else {
     {
       const command = _utilsBundle.program.command('test').allowUnknownOption(true);
@@ -318,6 +315,7 @@ async function launchContext(options, headless, executablePath) {
     executablePath
   };
   if (options.channel) launchOptions.channel = options.channel;
+  launchOptions.handleSIGINT = false;
   const contextOptions = // Copy the device descriptor since we have to compare and modify the options.
   options.device ? { ...playwright.devices[options.device]
   } : {}; // In headful mode, use host device scale factor for things to look nice.
@@ -341,7 +339,28 @@ async function launchContext(options, headless, executablePath) {
     if (options.proxyBypass) launchOptions.proxy.bypass = options.proxyBypass;
   }
 
-  const browser = await browserType.launch(launchOptions); // Viewport size
+  const browser = await browserType.launch(launchOptions);
+
+  if (process.env.PWTEST_CLI_EXIT) {
+    const logs = [];
+
+    require('playwright-core/lib/utilsBundle').debug.log = (...args) => {
+      const line = require('util').format(...args) + '\n';
+      logs.push(line);
+      process.stderr.write(line);
+    };
+
+    browser.on('disconnected', () => {
+      const hasCrashLine = logs.some(line => line.includes('process did exit:') && !line.includes('process did exit: exitCode=0, signal=null'));
+
+      if (hasCrashLine) {
+        process.stderr.write('Detected browser crash.\n'); // Make sure we exit abnormally when browser crashes.
+
+        process.exit(1);
+      }
+    });
+  } // Viewport size
+
 
   if (options.viewportSize) {
     try {
@@ -422,6 +441,10 @@ async function launchContext(options, headless, executablePath) {
       closeBrowser().catch(e => null);
     });
   });
+  process.on('SIGINT', async () => {
+    await closeBrowser();
+    process.exit(130);
+  });
   const timeout = options.timeout ? parseInt(options.timeout, 10) : 0;
   context.setDefaultTimeout(timeout);
   context.setDefaultNavigationTimeout(timeout);
@@ -432,6 +455,7 @@ async function launchContext(options, headless, executablePath) {
 
   delete launchOptions.headless;
   delete launchOptions.executablePath;
+  delete launchOptions.handleSIGINT;
   delete contextOptions.deviceScaleFactor;
   return {
     browser,
@@ -482,8 +506,9 @@ async function codegen(options, url, language, outputFile) {
     contextOptions,
     device: options.device,
     saveStorage: options.saveStorage,
-    startRecording: true,
-    outputFile: outputFile ? _path.default.resolve(outputFile) : undefined
+    mode: 'recording',
+    outputFile: outputFile ? _path.default.resolve(outputFile) : undefined,
+    handleSIGINT: false
   });
   await openPage(context, url);
   if (process.env.PWTEST_CLI_EXIT) await Promise.all(context.pages().map(p => p.close()));
@@ -611,7 +636,7 @@ function commandWithOpenOptions(command, description, options) {
 
   for (const option of options) result = result.option(option[0], ...option.slice(1));
 
-  return result.option('-b, --browser <browserType>', 'browser to use, one of cr, chromium, ff, firefox, wk, webkit', 'chromium').option('--block-service-workers', 'block service workers').option('--channel <channel>', 'Chromium distribution channel, "chrome", "chrome-beta", "msedge-dev", etc').option('--color-scheme <scheme>', 'emulate preferred color scheme, "light" or "dark"').option('--device <deviceName>', 'emulate device, for example  "iPhone 11"').option('--geolocation <coordinates>', 'specify geolocation coordinates, for example "37.819722,-122.478611"').option('--ignore-https-errors', 'ignore https errors').option('--load-storage <filename>', 'load context storage state from the file, previously saved with --save-storage').option('--lang <language>', 'specify language / locale, for example "en-GB"').option('--proxy-server <proxy>', 'specify proxy server, for example "http://myproxy:3128" or "socks5://myproxy:8080"').option('--proxy-bypass <bypass>', 'comma-separated domains to bypass proxy, for example ".com,chromium.org,.domain.com"').option('--save-har <filename>', 'save HAR file with all network activity at the end').option('--save-har-glob <glob pattern>', 'filter entries in the HAR by matching url against this glob pattern').option('--save-storage <filename>', 'save context storage state at the end, for later use with --load-storage').option('--save-trace <filename>', 'record a trace for the session and save it to a file').option('--timezone <time zone>', 'time zone to emulate, for example "Europe/Rome"').option('--timeout <timeout>', 'timeout for Playwright actions in milliseconds, no timeout by default').option('--user-agent <ua string>', 'specify user agent string').option('--viewport-size <size>', 'specify browser viewport size in pixels, for example "1280, 720"');
+  return result.option('-b, --browser <browserType>', 'browser to use, one of cr, chromium, ff, firefox, wk, webkit', 'chromium').option('--block-service-workers', 'block service workers').option('--channel <channel>', 'Chromium distribution channel, "chrome", "chrome-beta", "msedge-dev", etc').option('--color-scheme <scheme>', 'emulate preferred color scheme, "light" or "dark"').option('--device <deviceName>', 'emulate device, for example  "iPhone 11"').option('--geolocation <coordinates>', 'specify geolocation coordinates, for example "37.819722,-122.478611"').option('--ignore-https-errors', 'ignore https errors').option('--load-storage <filename>', 'load context storage state from the file, previously saved with --save-storage').option('--lang <language>', 'specify language / locale, for example "en-GB"').option('--proxy-server <proxy>', 'specify proxy server, for example "http://myproxy:3128" or "socks5://myproxy:8080"').option('--proxy-bypass <bypass>', 'comma-separated domains to bypass proxy, for example ".com,chromium.org,.domain.com"').option('--save-har <filename>', 'save HAR file with all network activity at the end').option('--save-har-glob <glob pattern>', 'filter entries in the HAR by matching url against this glob pattern').option('--save-storage <filename>', 'save context storage state at the end, for later use with --load-storage').option('--timezone <time zone>', 'time zone to emulate, for example "Europe/Rome"').option('--timeout <timeout>', 'timeout for Playwright actions in milliseconds, no timeout by default').option('--user-agent <ua string>', 'specify user agent string').option('--viewport-size <size>', 'specify browser viewport size in pixels, for example "1280, 720"');
 }
 
 async function launchGridServer(factoryPathOrPackageName, port, address, authToken) {

@@ -43,24 +43,28 @@ var _utils = require("../../utils");
  * limitations under the License.
  */
 class PageDispatcher extends _dispatcher.Dispatcher {
-  static fromNullable(scope, page) {
+  static fromNullable(parentScope, page) {
     if (!page) return undefined;
     const result = (0, _dispatcher.existingDispatcher)(page);
-    return result || new PageDispatcher(scope, page);
+    return result || new PageDispatcher(parentScope, page);
   }
 
-  constructor(scope, page) {
+  constructor(parentScope, page) {
     // TODO: theoretically, there could be more than one frame already.
     // If we split pageCreated and pageReady, there should be no main frame during pageCreated.
-    super(scope, page, 'Page', {
-      mainFrame: _frameDispatcher.FrameDispatcher.from(scope, page.mainFrame()),
+    // We will reparent it to the page below using adopt.
+    const mainFrame = _frameDispatcher.FrameDispatcher.from(parentScope, page.mainFrame());
+
+    super(parentScope, page, 'Page', {
+      mainFrame,
       viewportSize: page.viewportSize() || undefined,
       isClosed: page.isClosed(),
-      opener: PageDispatcher.fromNullable(scope, page.opener())
+      opener: PageDispatcher.fromNullable(parentScope, page.opener())
     }, true);
     this._type_EventTarget = true;
     this._type_Page = true;
     this._page = void 0;
+    this.adopt(mainFrame);
     this._page = page;
     this.addObjectListener(_page.Page.Events.Close, () => {
       this._dispatchEvent('close');
@@ -75,10 +79,11 @@ class PageDispatcher extends _dispatcher.Dispatcher {
       dialog: new _dialogDispatcher.DialogDispatcher(this._scope, dialog)
     }));
     this.addObjectListener(_page.Page.Events.Download, download => {
+      // Artifact can outlive the page, so bind to the context scope.
       this._dispatchEvent('download', {
         url: download.url,
         suggestedFilename: download.suggestedFilename(),
-        artifact: new _artifactDispatcher.ArtifactDispatcher(scope, download.artifact)
+        artifact: new _artifactDispatcher.ArtifactDispatcher(parentScope, download.artifact)
       });
     });
     this.addObjectListener(_page.Page.Events.FileChooser, fileChooser => this._dispatchEvent('fileChooser', {

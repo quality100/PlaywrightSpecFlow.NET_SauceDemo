@@ -5,22 +5,37 @@ namespace PlaywrightSauceDemo.Pages;
 public class ProductsPage
 {
     public string productsPageTitle = "PRODUCTS";
-    
+
     private readonly IPage _page;
-    
-    public ProductsPage(IPage page) => _page = page;
-    private ILocator _productsPageTitle => _page.Locator("//span[@class = 'title']");
-    private ILocator _randomProductLabel => _page.Locator("//div[@class = 'inventory_item_name' and contains(text(), '" + productLabelText + "')]");
-    private ILocator _productDescription => _page.Locator("//div[contains(text(), '" + productLabelText +
-                                                          "')]/ancestor::div[@class ='inventory_item_description']//div[@class = 'inventory_item_desc']");
-    private ILocator _productLabels => _page.Locator("(//div[@class = 'inventory_item_name'])");
-    public string productLabelText;
-    public async Task<string> setProductLabelText()
+    private readonly ScenarioContext _scenarioContext;
+
+    public ProductsPage(IPage page, ScenarioContext scenarioContext)
     {
-       return  productLabelText = getRandomElementTextFromList().GetAwaiter().GetResult();
+        _page = page;
+        _scenarioContext = scenarioContext;
     }
 
     
+    private ILocator _productsPageTitle => _page.Locator("//span[@class = 'title']");
+    private ILocator _randomProductLabel => _page.Locator("//div[@class = 'inventory_item_name' and contains(text(), '" + _scenarioContext["label"] + "')]");
+    private ILocator _productDescription => _page.Locator("//div[contains(text(), '" + _scenarioContext["label"] +
+                                                          "')]/ancestor::div[@class ='inventory_item_description']//div[@class = 'inventory_item_desc']");
+    private ILocator _productPrice => _page.Locator("//div[contains(text(), '" + _scenarioContext["label"] +
+                                                    "')]/ancestor::div[@class ='inventory_item_description']//div[@class = 'inventory_item_price']");
+    private ILocator _productLabels => _page.Locator("(//div[@class = 'inventory_item_name'])");
+    
+    
+    public async Task<string> getProductDescriptionTextAsync()
+    {
+        _scenarioContext["description"] = _productDescription.InnerTextAsync().Result;
+        return (string)_scenarioContext["description"];
+    }
+
+    public async Task<string> getProductPriceAsync()
+    {
+        _scenarioContext["price"] = _productPrice.InnerTextAsync().Result;
+        return (string)_scenarioContext["price"];
+    }
 
     public string getProductLabelText() 
     {
@@ -33,28 +48,24 @@ public class ProductsPage
         return text;
     }
 
-    
-
-    public async Task<List<string>> getProductsLabels()
+    public async Task<string> getLabel()
     {
         var rows = _productLabels;
-        var count = rows.CountAsync().Result;
+        var count =  rows.CountAsync().Result;
         List<string> list = new List<string>();
         for (int i = 0; i < count; i++)
         {
-           list.Add( rows.Nth(i).TextContentAsync().GetAwaiter().GetResult());
+            list.Add(rows.Nth(i).TextContentAsync().Result);
         }
-        return list;
+        var label2 = list.ElementAt(new Random().Next(1, list.Count));
+        _scenarioContext["label"] = label2;
+        return label2;
     }
-
-    public async Task<string> getRandomElementTextFromList()
-    {
-        List<string> list = await getProductsLabels();
-        return list.ElementAt(new Random().Next(1, list.Count));
-    }
-
     public async Task clickRandomElementLabel()
     {
+        await getLabel();
+        await getProductDescriptionTextAsync();
+        await getProductPriceAsync();
         await _randomProductLabel.ClickAsync();
     }
 }

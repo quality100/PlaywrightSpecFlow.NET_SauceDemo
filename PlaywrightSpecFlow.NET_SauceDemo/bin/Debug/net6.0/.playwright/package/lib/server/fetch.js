@@ -67,7 +67,7 @@ class APIRequestContext extends _instrumentation.SdkObject {
   }
 
   constructor(parent) {
-    super(parent, 'fetchRequest');
+    super(parent, 'request-context');
     this.fetchResponses = new Map();
     this.fetchLog = new Map();
     APIRequestContext.allInstances.add(this);

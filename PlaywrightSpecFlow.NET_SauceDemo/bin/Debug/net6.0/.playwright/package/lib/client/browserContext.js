@@ -101,7 +101,7 @@ class BrowserContext extends _channelOwner.ChannelOwner {
     if (parent instanceof _browser.Browser) this._browser = parent;
     this._isChromium = ((_this$_browser = this._browser) === null || _this$_browser === void 0 ? void 0 : _this$_browser._name) === 'chromium';
     this.tracing = _tracing.Tracing.from(initializer.tracing);
-    this.request = _fetch.APIRequestContext.from(initializer.APIRequestContext);
+    this.request = _fetch.APIRequestContext.from(initializer.requestContext);
 
     this._channel.on('bindingCall', ({
       binding

@@ -10,15 +10,22 @@ namespace PlaywrightSpecFlow.NET_SauceDemo.Steps;
 public class LoginTestSteps
 {
     private Driver _driver;
-    public LoginTestSteps(Driver driver) => _driver = driver;
+    private ScenarioContext _scenarioContext;
+
+    public LoginTestSteps(Driver driver, ScenarioContext scenarioContext)
+    {
+        _scenarioContext = scenarioContext;
+        _driver = driver;
+    }
+
     private LoginPage _loginPage => new LoginPage(_driver.Page);
-    private ProductsPage _productsPage =>new ProductsPage(_driver.Page);
+    private ProductsPage _productsPage =>new ProductsPage(_driver.Page, _scenarioContext);
     
 
     [Given(@"I navigate to Sauce Demo")]
     public void GivenINavigateToSauceDemo()
     {
-         _driver.Page.GotoAsync("https://www.saucedemo.com/");
+         _driver.Page.GotoAsync(ReadProperties.GetInstance().GetBaseURL());
     }
 
     [When(@"I enter following login details")]
@@ -27,6 +34,12 @@ public class LoginTestSteps
         dynamic data = table.CreateDynamicInstance();
         await _loginPage.TypeUsername((string)data.username);
         await _loginPage.TypePassword((string)data.password);
+    }
+    [When(@"I enter following login details from file")]
+    public async Task EnterLoginDetailsFromFile()
+    {
+        await _loginPage.TypeUsername(ReadProperties.GetInstance().GetUsername());
+        await _loginPage.TypePassword(ReadProperties.GetInstance().GetPassword());
     }
 
     [When(@"I click Login button")]
@@ -82,11 +95,20 @@ public class LoginTestSteps
         }
     }
 
-    [When(@"I successfully looged in")]
-    public async Task WhenISuccessfullyLoogedIn(Table table)
+    [When(@"I successfully logged in")]
+    public async Task WhenISuccessfullyLoggedIn()
     {
-        await WhenIEnterFollowingLoginDetails(table);
+        await EnterLoginDetailsFromFile();
+        await _driver.Page.PauseAsync();
         await WhenIClickLoginButton();
-        //await _driver.Page.PauseAsync();
+       // await _driver.Page.PauseAsync();
+    }
+
+    [When(@"I enter following login details --new design")]
+    public async Task WhenIEnterFollowingLoginDetailsNewDesign(Table table)
+    {
+       await _loginPage.fillUsernameInputAsync(table.Rows[0]["username"]);
+       await _loginPage.fillPasswordInputAsync(table.Rows[0]["password"]);
+       await _loginPage.loginBtnClickAsync();
     }
 }

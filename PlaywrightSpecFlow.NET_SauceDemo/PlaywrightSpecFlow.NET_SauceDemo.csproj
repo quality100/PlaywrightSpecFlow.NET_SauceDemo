@@ -11,8 +11,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0-preview.7.22375.6" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-        <PackageReference Include="Microsoft.Playwright" Version="1.24.1" />
+        <PackageReference Include="Microsoft.Playwright" Version="1.25.0" />
+        <PackageReference Include="Microsoft.Playwright.TestAdapter" Version="1.25.0" />
         <PackageReference Include="SpecFlow.Assist.Dynamic" Version="1.4.2" />
         <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
         <PackageReference Include="SpecFlow.NUnit" Version="3.9.22" />

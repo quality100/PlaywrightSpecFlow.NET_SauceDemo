@@ -65,7 +65,7 @@ const kScreencastOptions = {
 
 class Tracing extends _instrumentation.SdkObject {
   constructor(context, tracesDir) {
-    super(context, 'Tracing');
+    super(context, 'tracing');
     this._writeChain = Promise.resolve();
     this._snapshotter = void 0;
     this._harTracer = void 0;
@@ -216,7 +216,6 @@ class Tracing extends _instrumentation.SdkObject {
     var _this$_snapshotter3;
 
     (_this$_snapshotter3 = this._snapshotter) === null || _this$_snapshotter3 === void 0 ? void 0 : _this$_snapshotter3.dispose();
-    this.emit(Tracing.Events.Dispose);
   }
 
   async stopChunk(params) {
@@ -532,9 +531,6 @@ class Tracing extends _instrumentation.SdkObject {
 }
 
 exports.Tracing = Tracing;
-Tracing.Events = {
-  Dispose: 'dispose'
-};
 
 function visitSha1s(object, sha1s) {
   if (Array.isArray(object)) {

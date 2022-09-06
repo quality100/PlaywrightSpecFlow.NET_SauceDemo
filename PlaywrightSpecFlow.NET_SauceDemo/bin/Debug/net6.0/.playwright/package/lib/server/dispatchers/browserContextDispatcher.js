@@ -51,22 +51,29 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
  * limitations under the License.
  */
 class BrowserContextDispatcher extends _dispatcher.Dispatcher {
-  constructor(scope, context) {
-    super(scope, context, 'BrowserContext', {
+  constructor(parentScope, context) {
+    // We will reparent these to the context below.
+    const requestContext = _networkDispatchers.APIRequestContextDispatcher.from(parentScope, context.fetchRequest);
+
+    const tracing = _tracingDispatcher.TracingDispatcher.from(parentScope, context.tracing);
+
+    super(parentScope, context, 'BrowserContext', {
       isChromium: context._browser.options.isChromium,
-      APIRequestContext: _networkDispatchers.APIRequestContextDispatcher.from(scope, context.fetchRequest),
-      tracing: _tracingDispatcher.TracingDispatcher.from(scope, context.tracing)
+      requestContext,
+      tracing
     }, true);
     this._type_EventTarget = true;
     this._type_BrowserContext = true;
     this._context = void 0;
+    this.adopt(requestContext);
+    this.adopt(tracing);
     this._context = context; // Note: when launching persistent context, dispatcher is created very late,
     // so we can already have pages, videos and everything else.
 
     const onVideo = artifact => {
       // Note: Video must outlive Page and BrowserContext, so that client can saveAs it
       // after closing the context. We use |scope| for it.
-      const artifactDispatcher = new _artifactDispatcher.ArtifactDispatcher(scope, artifact);
+      const artifactDispatcher = new _artifactDispatcher.ArtifactDispatcher(parentScope, artifact);
 
       this._dispatchEvent('video', {
         artifact: artifactDispatcher
@@ -143,8 +150,8 @@ class BrowserContextDispatcher extends _dispatcher.Dispatcher {
       var _request$frame3;
 
       return this._dispatchEvent('requestFinished', {
-        request: _networkDispatchers.RequestDispatcher.from(scope, request),
-        response: _networkDispatchers.ResponseDispatcher.fromNullable(scope, response),
+        request: _networkDispatchers.RequestDispatcher.from(this._scope, request),
+        response: _networkDispatchers.ResponseDispatcher.fromNullable(this._scope, response),
         responseEndTiming: request._responseEndTiming,
         page: _pageDispatcher.PageDispatcher.fromNullable(this._scope, (_request$frame3 = request.frame()) === null || _request$frame3 === void 0 ? void 0 : _request$frame3._page.initializedOrUndefined())
       });
