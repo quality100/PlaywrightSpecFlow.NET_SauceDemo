@@ -1,9 +1,10 @@
 ﻿Feature: OrderProductTest
-	Background: 
-		Given I navigate to Sauce Demo
-		When I successfully logged in
+	
+Background: 
+	Given I navigate to Sauce Demo
+	When I successfully logged in
 
-@mytag
+	@orderTest
 Scenario: Order single product
 	When I select random product
 	Then I verify Product Description page is opened
