@@ -27,4 +27,5 @@ public class ReadProperties
    public string GetPassword() { return properties["password"]; }
    public string GetBaseURL() { return properties["baseURL"]; }
    public string GetBrowserName() { return properties["browser"]; }
+   public string GetBBaseApiUrl() { return properties["baseApiUrl"]; }
 }
