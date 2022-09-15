@@ -6,11 +6,11 @@ public class ReadProperties
 {
    private static ReadProperties instance;
    protected static IConfiguration properties;
-
+   
    private ReadProperties()
    {
       properties = new ConfigurationBuilder()
-         .AddJsonFile("C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\appsettings.json")
+         .AddJsonFile("appsettings.json")
          .Build();
    }
 

@@ -13,39 +13,33 @@ public class ProductPage
     private ILocator cartIconBadge => _page.Locator("span.shopping_cart_badge");
     private ILocator addToCartButton_or_Remove => _page.Locator("//button[contains(@class, 'btn_inventory')]");
     
-    public string getProductLabel()
+    public async Task<string> getProductLabel()
     {
-        return productLabel.InnerTextAsync().Result;
-    } 
-
-    public string getProductPrice()
-    {
-        return productPrice.InnerTextAsync().Result;
+        return await productLabel.InnerTextAsync();
     }
-
-    public string getProductDescription()
+    public async Task<string> getProductPrice()
     {
-        return productDescription.InnerTextAsync().Result;
+        return await productPrice.InnerTextAsync();
     }
-
+    public async Task<string> getProductDescription()
+    {
+        return await productDescription.InnerTextAsync();
+    }
     public async Task clickCartIcon()
     {
         await cartIcon.ClickAsync();
     }
-
     public async Task clickAddtoCartButton()
     {
         await addToCartButton_or_Remove.ClickAsync();
     }
-
-    public async Task<ILocator> getCartBadge()
+    public ILocator getCartBadge()
     {
         return cartIconBadge;
     }
-
     public async Task<string> getCartBadgeValue()
     {
-        return cartIconBadge.TextContentAsync().GetAwaiter().GetResult();
+        return await cartIconBadge.TextContentAsync();
     }
 
 }

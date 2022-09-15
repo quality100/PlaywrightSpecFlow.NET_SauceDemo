@@ -3,6 +3,7 @@ using Microsoft.Playwright;
 using NUnit.Framework;
 using PlaywrightSauceDemo.Pages;
 using SpecFlowSauceDemo_.NET.Drivers;
+using TechTalk.SpecFlow.Assist;
 
 namespace PlaywrightSpecFlow.NET_SauceDemo.Steps;
 
@@ -23,6 +24,7 @@ public class OrderProductSteps
     private ProductsPage _productsPage => new ProductsPage(_page, _scenarioContext);
     private ProductPage _productPage => new ProductPage(_page);
     private CartPage _cartPage => new CartPage(_page);
+    private YourInformationPage _infoPage => new YourInformationPage(_page);
 
     [When(@"I select random product")]
     public async Task WhenISelectRandomProduct()
@@ -37,13 +39,13 @@ public class OrderProductSteps
         switch (part.ToUpper())
         {
             case "LABEL":
-                Assert.AreEqual(_scenarioContext["label"], _productPage.getProductLabel());
+                Assert.AreEqual(_scenarioContext["label"], await _productPage.getProductLabel());
                 break;
             case "DESCRIPTION":
-                Assert.AreEqual(_scenarioContext["description"], _productPage.getProductDescription());
+                Assert.AreEqual(_scenarioContext["description"], await _productPage.getProductDescription());
                 break;
             case "PRICE":
-                Assert.AreEqual(_scenarioContext["price"], _productPage.getProductPrice());
+                Assert.AreEqual(_scenarioContext["price"], await _productPage.getProductPrice());
                 break;
         }
     }
@@ -64,7 +66,7 @@ public class OrderProductSteps
     [Then(@"I verify cart badge not visible")]
     public async Task ThenIVerifyCartBadgeNotVisible()
     {
-        Assert.True(!await _productPage.getCartBadge().GetAwaiter().GetResult().IsVisibleAsync());
+        Assert.True(! await _productPage.getCartBadge().IsVisibleAsync());
     }
 
     [When(@"Click on cart icon")]
@@ -76,6 +78,46 @@ public class OrderProductSteps
     [Then(@"I verify Cart Page is opened")]
     public async Task ThenIVerifyCartPageIsOpened()
     {
-       Assert.True(await _cartPage.getCartPageTitle().GetAwaiter().GetResult().IsVisibleAsync());
+       Assert.True(await _cartPage.getCartPageTitle().IsVisibleAsync());
+    }
+
+    [Then(@"I verify (.*) on Products Page and Cart Page are equal")]
+    public async Task ThenIVerifyPriceOnProductsPageAndCartPageAreEqual(string part)
+    {
+        switch (part.ToUpper())
+        {
+            case "LABEL":
+                Assert.AreEqual(_scenarioContext["label"], await _cartPage.GetProductLabelTextCartPageAsync());
+                break;
+            case "DESCRIPTION":
+                Assert.AreEqual(_scenarioContext["description"], await _cartPage.GetProductDescriptionTextCartPageAsync());
+                break;
+            case "PRICE":
+                Assert.AreEqual(_scenarioContext["price"], await _cartPage.GetProductPriceTextCartPageAsync());
+                break;
+        }
+    }
+
+    [When(@"I click Checkout button on Cart Page")]
+    public async Task WhenIClickCheckoutButtonOnCartPage()
+    {
+        await _cartPage.getCartPageCheckoutBtn().ClickAsync();
+    }
+
+    [Then(@"I verify Your Information Page is opened")]
+    public async Task ThenIVerifyYourInformationPageIsOpened()
+    {
+        var actualTitle = await _infoPage.getYourInfoPageTitleAsync().InnerTextAsync();
+        Assert.AreEqual(_infoPage.yourInformationPageTitle,  actualTitle.Trim());
+    }
+
+    [When(@"I type required info")]
+    public async Task WhenITypeRequiredInfo(Table table)
+    {
+        dynamic data = table.CreateDynamicInstance();
+        await _infoPage.fillFirstNameInputAsync((string) data.FirstName);
+        await _infoPage.fillLastNameInputAsync((string) data.LastName);
+        await _infoPage.fillPostalCodeInputAsync((string) data.PostalCode);
+        
     }
 }

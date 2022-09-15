@@ -76,18 +76,18 @@ public class LoginTestSteps
     }
 
     [Then(@"I verify (.*) error message")]
-    public void ThenIVerifyEmptyCredentialsErrorMessage(string messageType)
+    public async Task ThenIVerifyEmptyCredentialsErrorMessage(string messageType)
     {
         switch (messageType.ToUpper())
         {
             case "EMPTY CREDENTIALS":
-                Assert.AreEqual(ErrorMessages_LoginPage.emptyUsernameErrorMessage, _loginPage.getInvalidCredentialsErrorMessage());
+                Assert.AreEqual(ErrorMessages_LoginPage.emptyUsernameErrorMessage,  await _loginPage.getInvalidCredentialsErrorMessage());
                 break;
             case "INVALID CREDENTIALS":
-                Assert.AreEqual(ErrorMessages_LoginPage.invalidCredentialsErrorMessage, _loginPage.getInvalidCredentialsErrorMessage());
+                Assert.AreEqual(ErrorMessages_LoginPage.invalidCredentialsErrorMessage, await _loginPage.getInvalidCredentialsErrorMessage());
                 break;
             case "EMPTY PASSWORD":
-                Assert.AreEqual(ErrorMessages_LoginPage.emptyPasswordErrorMessage, _loginPage.getInvalidCredentialsErrorMessage());
+                Assert.AreEqual(ErrorMessages_LoginPage.emptyPasswordErrorMessage, await _loginPage.getInvalidCredentialsErrorMessage());
                 break;
             default:
                 Console.WriteLine("Verify error message!");
@@ -99,9 +99,7 @@ public class LoginTestSteps
     public async Task WhenISuccessfullyLoggedIn()
     {
         await EnterLoginDetailsFromFile();
-        await _driver.Page.PauseAsync();
         await WhenIClickLoginButton();
-       // await _driver.Page.PauseAsync();
     }
 
     [When(@"I enter following login details --new design")]

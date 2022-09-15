@@ -26,9 +26,9 @@ public class LoginPage
     {
         return _page.Locator(this.usernameInputSelector);
     }
-    public async Task<ILocator> getPasswordInputLocator()
+    public ILocator getPasswordInputLocator()
     {
-        return _page.Locator(this.passwordInputSelector);
+        return _page.Locator(passwordInputSelector);
     }
     public async Task<ILocator> getLoginBtnLocator()
     {
@@ -46,14 +46,12 @@ public class LoginPage
 
     public async Task fillPasswordInputAsync(string password)
     {
-        await getPasswordInputLocator().Result.FillAsync(password);
+        await getPasswordInputLocator().FillAsync(password);
     }
-
-
-
-    public string? getInvalidCredentialsErrorMessage()
+    
+    public async Task<string?> getInvalidCredentialsErrorMessage()
     {
-        return _errorMessage.TextContentAsync().Result;
+        return await _errorMessage.InnerTextAsync();
     }
 
     public async Task clearInputFields()

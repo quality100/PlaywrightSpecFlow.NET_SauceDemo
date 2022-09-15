@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Data.SqlClient;
+using FluentAssertions;
 using Microsoft.Playwright;
 using NUnit.Framework;
 using PlaywrightSpecFlow.NET_SauceDemo.Interfaces;
@@ -14,8 +15,8 @@ public class ApiTestsSteps
 {
     private ScenarioContext _scenarioContext;
     public ApiTestsSteps(ScenarioContext scenarioContext) => _scenarioContext = scenarioContext;
-    
-    
+
+
     [Given(@"I execute '(.*)' request")]
     public async Task GivenIExecuteRequest(string endpointLabel)
     {
@@ -32,21 +33,42 @@ public class ApiTestsSteps
                 response = await requestContext.GetAsync(API_Endpoints.getSingleUser);
                 break;
         }
+
         Console.WriteLine(await response.JsonAsync());
-       _scenarioContext["response"] = await response?.JsonAsync();
-       var resp = await response.JsonAsync();
-       _scenarioContext["DeserializedResponse"] = resp.Value.Deserialize<SingleUserDataModel>();
+        _scenarioContext["response"] = await response?.JsonAsync();
+        var resp = await response.JsonAsync();
+        _scenarioContext["DeserializedResponse"] = resp.Value.Deserialize<SingleUserDataModel>();
     }
 
 
-    [Then(@"I verify '(.*)' field in response")]
-    public async Task ThenIVerifyFieldInResponse(string name)
+    [Then(@"I verify '(.*)' field in response is '(.*)'")]
+    public async Task ThenIVerifyFieldInResponse(string field, string expectedValue)
     {
-        var response = (JsonElement)_scenarioContext["response"];
-        var deserializedResponse = (SingleUserDataModel)_scenarioContext["DeserializedResponse"];
-        Console.WriteLine((JsonElement)_scenarioContext["response"]);
-        Assert.AreEqual(response.GetProperty("data").GetProperty("first_name").ToString(),"Janet");
-        Assert.AreEqual(deserializedResponse.data.first_name, "Janet");
-        Assert.AreEqual(deserializedResponse.support.text,"To keep ReqRes free, contributions towards server costs are appreciated!");
+        var response = (JsonElement) _scenarioContext["response"];
+        var deserializedResponse = (SingleUserDataModel) _scenarioContext["DeserializedResponse"];
+        switch (field.ToUpper())
+        {
+            case "NAME":
+                Assert.AreEqual(expectedValue, deserializedResponse.data.first_name);
+                break;
+            case "SUPPORT TEXT":
+                Assert.AreEqual(expectedValue, deserializedResponse.support.text);
+                break;
+        }
+    }
+
+    [Then(@"Db test")]
+    public void ThenDbTest()
+    {
+        string connectionString =
+            "Server=db4free.net:3306;Database=itech_cypress;User Id=admin12345654321;Password=password;";
+        SqlConnection connection = new SqlConnection(connectionString);
+
+        SqlCommand command = new SqlCommand(
+            "select First_Name from Employees where Employee_ID = 1", connection);
+
+        connection.Open();
+        string result = (string) command.ExecuteScalar();
+        Assert.AreEqual("Andrew", result);
     }
 }

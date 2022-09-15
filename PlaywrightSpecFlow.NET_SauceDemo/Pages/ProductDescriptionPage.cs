@@ -17,7 +17,8 @@ public class ProductDescriptionPage
 
     public async Task<string> getProductDescriptionText()
     {
-        return elementDescription.TextContentAsync().GetAwaiter().GetResult().Trim();
+       string res = await Task.Run(() => elementDescription.InnerTextAsync());
+       return res.Trim();
     }
 
     public async Task<ILocator> getBackToProductsBtn()
