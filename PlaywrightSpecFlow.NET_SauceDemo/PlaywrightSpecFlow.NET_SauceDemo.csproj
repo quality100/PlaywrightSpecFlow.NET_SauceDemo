@@ -27,10 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Files" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Remove="appsettings1.json" />
     </ItemGroup>
 

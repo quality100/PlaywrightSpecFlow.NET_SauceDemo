@@ -58,7 +58,7 @@ public class ApiTestsSteps
     }
 
     [Then(@"Db test")]
-    public void ThenDbTest()
+    public async Task ThenDbTest()
     {
         string connectionString =
             "Server=db4free.net:3306;Database=itech_cypress;User Id=admin12345654321;Password=password;";
