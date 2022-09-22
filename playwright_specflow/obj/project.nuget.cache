@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ntEXaDZMm1gcb5hEsjaHY4qtiPAkLeE3UUt/AZMUGQdi9+M7RYCjE4o1D8ASKlC5QTJl51ezI4cVJGdpsZa0/A==",
+  "dgSpecHash": "hmnaRjJXU0V3+mV1Go/xZ6z05yHYPfoLBrLwgKwn46/iyCBzlLnVJVL+zO51oehwvUeLG6aWdachuiYANDjyCg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj",
+  "projectFilePath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\playwright_specflow\\playwright_specflow.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\yury.samsonau\\.nuget\\packages\\bodi\\1.5.0\\bodi.1.5.0.nupkg.sha512",
     "C:\\Users\\yury.samsonau\\.nuget\\packages\\cucumber.messages\\6.0.1\\cucumber.messages.6.0.1.nupkg.sha512",

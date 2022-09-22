@@ -7782,11 +7782,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj",
-      "projectName": "PlaywrightSpecFlow.NET_SauceDemo",
-      "projectPath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo.csproj",
+      "projectUniqueName": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\playwright_specflow\\playwright_specflow.csproj",
+      "projectName": "playwright_specflow",
+      "projectPath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\playwright_specflow\\playwright_specflow.csproj",
       "packagesPath": "C:\\Users\\yury.samsonau\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\PlaywrightSpecFlow.NET_SauceDemo\\obj\\",
+      "outputPath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\playwright_specflow\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\yury.samsonau\\AppData\\Roaming\\NuGet\\NuGet.Config",
