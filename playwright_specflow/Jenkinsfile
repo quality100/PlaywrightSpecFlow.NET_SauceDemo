@@ -2,7 +2,6 @@ pipeline{
     agent{
         docker{
             image 'mcr.microsoft.com/playwright/dotnet:v1.25.0-focal'
-                environment 'HOME="."'
         }      
     }
     stages{
