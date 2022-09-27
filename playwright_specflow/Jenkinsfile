@@ -1,8 +1,7 @@
 pipeline{
     agent{
         docker{
-            image 'mcr.microsoft.com/playwright:v1.26.0-focal'
-            args  '"msys_no_pathconv=1"'
+            image 'mcr.microsoft.com/playwright:v1.26.0'
         }      
     }
     stages{
