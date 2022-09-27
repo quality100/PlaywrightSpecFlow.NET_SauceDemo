@@ -1,10 +1,17 @@
-pipeline {
-   agent { docker { image 'mcr.microsoft.com/playwright:v1.26.0-focal' } }
-   stages {
-      stage('e2e-tests') {
-         steps {
-            echo 'Hello!'
-         }
-      }
-   }
+pipeline{
+    agent{
+        docker{
+            image 'mcr.microsoft.com/playwright:v1.26.0-focal'
+        }      
+    }
+    stages{
+        stage('install playwright'){
+            steps{
+            sh '''
+            pwsh ./bin/Debug/net6.0/playwright.ps1 install
+            dotnet build
+            ''' 
+            }
+        }
+    }
 }
