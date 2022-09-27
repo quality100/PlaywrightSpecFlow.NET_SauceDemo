@@ -2,7 +2,7 @@ pipeline{
     agent{
         docker{
             image 'mcr.microsoft.com/playwright:v1.26.0-focal'
-            args  '"-v $(pwd):/opt \"'
+            args  '-v $(pwd):/opt \'
         }      
     }
     stages{
