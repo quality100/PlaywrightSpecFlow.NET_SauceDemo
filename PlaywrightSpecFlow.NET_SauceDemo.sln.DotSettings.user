@@ -1,13 +1,14 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9653e378_002D68d4_002D4a75_002Db99f_002D29353e143f88/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9653e378_002D68d4_002D4a75_002Db99f_002D29353e143f88/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="LoginTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;TestAncestor&gt;&#xD;
       &lt;TestId&gt;NUnit3x::E250CEB5-09FD-4ACD-9A33-BDC4D41EE619::net6.0::PlaywrightSpecFlow.NET_SauceDemo.Features.OrderProductTestFeature.OrderSingleProduct&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::E250CEB5-09FD-4ACD-9A33-BDC4D41EE619::net6.0::PlaywrightSpecFlow.NET_SauceDemo.Features.API_ReqresFeature.FirstApiTest&lt;/TestId&gt;&#xD;
     &lt;/TestAncestor&gt;&#xD;
     &lt;ProjectFile&gt;E250CEB5-09FD-4ACD-9A33-BDC4D41EE619/d:Features/f:LoginTest.feature.cs&lt;/ProjectFile&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e9e446f1_002Ddae2_002D4932_002Dbeea_002D23f4fb85f681/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="OrderSingleProduct" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e9e446f1_002Ddae2_002D4932_002Dbeea_002D23f4fb85f681/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="OrderSingleProduct" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::E250CEB5-09FD-4ACD-9A33-BDC4D41EE619::net6.0::PlaywrightSpecFlow.NET_SauceDemo.Features.OrderProductTestFeature.OrderSingleProduct&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::E250CEB5-09FD-4ACD-9A33-BDC4D41EE619::net6.0::PlaywrightSpecFlow.NET_SauceDemo.Features.LoginTestFeature.LoginTest_NewDesign&lt;/TestId&gt;&#xD;
