@@ -4,7 +4,6 @@ pipeline{
         docker () {
           MSYS_NO_PATHCONV=1 docker.exe
         }
-        export -f docker
             image 'mcr.microsoft.com/playwright:v1.26.0-focal'
         }      
     }
