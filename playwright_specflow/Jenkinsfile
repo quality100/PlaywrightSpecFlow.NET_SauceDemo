@@ -10,8 +10,12 @@ pipeline{
             sh '''
             dotnetRestore()
             dotnetBuild()
-            pwsh /bin/Debug/net6.0/playwright.ps1 install
-            ''' 
+            pwsh /bin/Debug/net6.0/playwright.ps1 install --with-deps chromium
+            '''
+            }
+        stage('Tests Run'){
+             steps{
+              sh 'dotnetTest continueOnError: true' 
             }
         }
     }
