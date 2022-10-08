@@ -8,7 +8,7 @@ pipeline{
         stage('install playwright'){
             steps{
             sh '''
-            ./bin/Debug/net6.0/playwright.ps1 install
+            pwsh ./bin/Debug/net6.0/playwright.ps1 install
             dotnet build
             ''' 
             }
