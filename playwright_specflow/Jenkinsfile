@@ -16,7 +16,7 @@ pipeline{
         }
         stage('Tests Run'){
              steps{
-              sh 'dotnetTest continueOnError: true' 
+              sh 'dotnetTest()' 
             }
         }
     }
