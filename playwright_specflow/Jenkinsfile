@@ -8,8 +8,8 @@ pipeline{
         stage('install playwright'){
             steps{
             sh '''
-            dotnetRestore()
-            dotnetBuild()
+            dotnetRestore('PlaywrightSpecFlow.NET_SauceDemo.sln')
+            dotnetBuild('PlaywrightSpecFlow.NET_SauceDemo.sln')
             pwsh /bin/Debug/net6.0/playwright.ps1 install --with-deps chromium
             '''
             }
