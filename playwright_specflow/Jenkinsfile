@@ -8,7 +8,7 @@ pipeline{
         stage('install playwright'){
             steps{
                 withDotNet(sdk: '.Net 6.0') {
-                     dotnetBuild()
+                     dotnetBuild project: 'var/lib/jenkins/workspace/saucedemo_playwright/PlaywrightSpecFlow.NET_SauceDemo.sln', sdk: '.Net 6.0'
                   }
                 sh 'pwsh playwright_specflow/bin/Debug/net6.0/playwright.ps1 install --with-deps'
             }
