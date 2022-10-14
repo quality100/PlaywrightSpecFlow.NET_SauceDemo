@@ -7777,26 +7777,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\yury.samsonau\\.nuget\\packages\\": {}
+    "C:\\Users\\quali\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\playwright_specflow\\playwright_specflow.csproj",
+      "projectUniqueName": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo2\\playwright_specflow\\playwright_specflow.csproj",
       "projectName": "playwright_specflow",
-      "projectPath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\playwright_specflow\\playwright_specflow.csproj",
-      "packagesPath": "C:\\Users\\yury.samsonau\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\yury.samsonau\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo\\playwright_specflow\\obj\\",
+      "projectPath": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo2\\playwright_specflow\\playwright_specflow.csproj",
+      "packagesPath": "C:\\Users\\quali\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo2\\playwright_specflow\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\yury.samsonau\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\quali\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -7883,7 +7881,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.107\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
