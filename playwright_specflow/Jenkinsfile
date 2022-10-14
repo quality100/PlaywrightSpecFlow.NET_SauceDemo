@@ -7,18 +7,13 @@ pipeline{
     stages{
         stage('install playwright'){
             steps{
-            sh '''
-            dotnetRestore()
-            dotnetBuild()
-            pwsh /bin/Debug/net6.0/playwright.ps1 install --with-deps chromium
-            '''
+                sh 'pwsh dotnet build'
+                sh 'pwsh playwright_specflow/bin/Debug/net6.0/playwright.ps1 install --with-deps'
             }
         }
         stage('Tests Run'){
              steps{
-              sh '''
-              dotnetTest()
-              ''' 
+              sh 'dotnet Test' 
             }
         }
     }
