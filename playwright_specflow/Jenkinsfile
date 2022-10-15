@@ -6,12 +6,10 @@ pipeline{
     }
     stages{
         stage('install playwright'){
-             agent{ 
-                dockerfile true 
+            steps{
+                sh 'run dotnet build'
+                sh 'pwsh playwright_specflow/bin/Debug/net6.0/playwright.ps1 install --with-deps'
             }
-                steps{
-                    sh 'pwsh playwright_specflow/bin/Debug/net6.0/playwright.ps1 install --with-deps'
-                }
         }
         stage('Tests Run'){
              steps{
