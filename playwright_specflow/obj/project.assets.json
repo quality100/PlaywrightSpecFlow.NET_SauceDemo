@@ -7782,11 +7782,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo2\\playwright_specflow\\playwright_specflow.csproj",
+      "projectUniqueName": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo3\\playwright_specflow\\playwright_specflow.csproj",
       "projectName": "playwright_specflow",
-      "projectPath": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo2\\playwright_specflow\\playwright_specflow.csproj",
+      "projectPath": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo3\\playwright_specflow\\playwright_specflow.csproj",
       "packagesPath": "C:\\Users\\quali\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo2\\playwright_specflow\\obj\\",
+      "outputPath": "C:\\Users\\quali\\RiderProjects\\PlaywrightSpecFlow.NET_SauceDemo3\\playwright_specflow\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\quali\\AppData\\Roaming\\NuGet\\NuGet.Config"
