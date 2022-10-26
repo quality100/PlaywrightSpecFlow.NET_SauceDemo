@@ -7,7 +7,7 @@ pipeline{
     stages{
         stage('install playwright'){
             steps{
-                dotnet build 
+                pwsh dotnet build 
             }
         }
         stage('Tests Run'){
