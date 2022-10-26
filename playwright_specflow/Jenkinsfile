@@ -7,7 +7,7 @@ pipeline{
     stages{
         stage('install playwright'){
             steps{
-                dotnet build --runtime ubuntu.20.04-x64
+                dotnet build
             }
         }
         stage('Tests Run'){
