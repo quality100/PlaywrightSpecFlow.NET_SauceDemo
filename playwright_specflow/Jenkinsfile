@@ -7,7 +7,7 @@ pipeline{
     stages{
         stage('install playwright'){
             steps{
-                docker run
+                docker 'run'
             }
         }
         stage('Tests Run'){
