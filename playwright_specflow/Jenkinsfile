@@ -7,10 +7,7 @@ pipeline{
     stages{
         stage('install playwright'){
             steps{
-                powershell'''
-                    pwsh dotnet build
-                    pwsh playwright_specflow/bin/Debug/net6.0/playwright.ps1 install --with-deps
-                    '''
+                powershell 'dotnet build' 
             }
         }
         stage('Tests Run'){
