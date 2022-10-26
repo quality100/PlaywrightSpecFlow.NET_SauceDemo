@@ -7,7 +7,7 @@ pipeline{
     stages{
         stage('install playwright'){
             steps{
-                sudo 'dotnet build' 
+               build 
             }
         }
         stage('Tests Run'){
