@@ -14,6 +14,7 @@
           "Microsoft.Extensions.Configuration.Json": "6.0.0",
           "Microsoft.NET.Test.Sdk": "17.0.0",
           "Microsoft.Playwright": "1.25.0",
+          "Microsoft.Playwright.NUnit": "1.25.0",
           "Microsoft.Playwright.TestAdapter": "1.25.0",
           "NUnit3TestAdapter": "4.1.0",
           "SpecFlow.Assist.Dynamic": "1.4.2",
@@ -561,6 +562,21 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Playwright.dll": {
+            "assemblyVersion": "1.25.0.0",
+            "fileVersion": "1.25.0.0"
+          }
+        }
+      },
+      "Microsoft.Playwright.NUnit/1.25.0": {
+        "dependencies": {
+          "Microsoft.NET.Test.Sdk": "17.0.0",
+          "Microsoft.Playwright": "1.25.0",
+          "Microsoft.Playwright.TestAdapter": "1.25.0",
+          "NUnit": "3.13.2",
+          "NUnit3TestAdapter": "4.1.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Playwright.NUnit.dll": {
             "assemblyVersion": "1.25.0.0",
             "fileVersion": "1.25.0.0"
           }
@@ -1906,6 +1922,13 @@
       "sha512": "sha512-vS/GbdBdOF6TnnsO7uugxo2eNpV9rAI/OqikQa8ioS9xFpLnPLIQQQZh7nIR/U+2jrfIWszf6QLMDeVqjhMEQw==",
       "path": "microsoft.playwright/1.25.0",
       "hashPath": "microsoft.playwright.1.25.0.nupkg.sha512"
+    },
+    "Microsoft.Playwright.NUnit/1.25.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wMX5HXC/112Z15cMwjwxNT0FSoyZabn7mT0jbtXftmqZq9+4Gi8px92UwtvwF1mKtfSYsnvS9YAT2BS0dSSlUA==",
+      "path": "microsoft.playwright.nunit/1.25.0",
+      "hashPath": "microsoft.playwright.nunit.1.25.0.nupkg.sha512"
     },
     "Microsoft.Playwright.TestAdapter/1.25.0": {
       "type": "package",

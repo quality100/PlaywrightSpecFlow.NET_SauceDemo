@@ -652,6 +652,22 @@
           "buildTransitive/Microsoft.Playwright.targets": {}
         }
       },
+      "Microsoft.Playwright.NUnit/1.25.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NET.Test.Sdk": "16.11.0",
+          "Microsoft.Playwright": "1.25.0",
+          "Microsoft.Playwright.TestAdapter": "1.25.0",
+          "NUnit": "3.13.2",
+          "NUnit3TestAdapter": "4.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Playwright.NUnit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Playwright.NUnit.dll": {}
+        }
+      },
       "Microsoft.Playwright.TestAdapter/1.25.0": {
         "type": "package",
         "dependencies": {
@@ -3419,6 +3435,19 @@
         "lib/netstandard2.0/Microsoft.Playwright.xml",
         "microsoft.playwright.1.25.0.nupkg.sha512",
         "microsoft.playwright.nuspec"
+      ]
+    },
+    "Microsoft.Playwright.NUnit/1.25.0": {
+      "sha512": "wMX5HXC/112Z15cMwjwxNT0FSoyZabn7mT0jbtXftmqZq9+4Gi8px92UwtvwF1mKtfSYsnvS9YAT2BS0dSSlUA==",
+      "type": "package",
+      "path": "microsoft.playwright.nunit/1.25.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/netstandard2.0/Microsoft.Playwright.NUnit.dll",
+        "microsoft.playwright.nunit.1.25.0.nupkg.sha512",
+        "microsoft.playwright.nunit.nuspec"
       ]
     },
     "Microsoft.Playwright.TestAdapter/1.25.0": {
@@ -7767,6 +7796,7 @@
       "Microsoft.Extensions.Configuration.Json >= 6.0.0",
       "Microsoft.NET.Test.Sdk >= 17.0.0",
       "Microsoft.Playwright >= 1.25.0",
+      "Microsoft.Playwright.NUnit >= 1.25.0",
       "Microsoft.Playwright.TestAdapter >= 1.25.0",
       "NUnit3TestAdapter >= 4.1.0",
       "SpecFlow.Assist.Dynamic >= 1.4.2",
@@ -7836,6 +7866,10 @@
             "version": "[17.0.0, )"
           },
           "Microsoft.Playwright": {
+            "target": "Package",
+            "version": "[1.25.0, )"
+          },
+          "Microsoft.Playwright.NUnit": {
             "target": "Package",
             "version": "[1.25.0, )"
           },

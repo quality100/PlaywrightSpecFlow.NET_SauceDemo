@@ -64,6 +64,10 @@
               "target": "Package",
               "version": "[1.25.0, )"
             },
+            "Microsoft.Playwright.NUnit": {
+              "target": "Package",
+              "version": "[1.25.0, )"
+            },
             "Microsoft.Playwright.TestAdapter": {
               "target": "Package",
               "version": "[1.25.0, )"
