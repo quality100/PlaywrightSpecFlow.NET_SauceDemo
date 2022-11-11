@@ -11,8 +11,8 @@ pipeline{
     stages{
         stage('Build Project'){
             steps{
-                dotnetRestore project "playwright_specflow/playwright_specflow.csproj"
-                dotnetBuild project "playwright_specflow/playwright_specflow.csproj"
+                dotnetRestore project: 'playwright_specflow/playwright_specflow.csproj'
+                dotnetBuild project: 'playwright_specflow/playwright_specflow.csproj'
             }
         }
         stage('Install Playwright'){
@@ -22,7 +22,7 @@ pipeline{
         }
         stage('Run Tests'){
             steps{
-            dotnetTest project "playwright_specflow/playwright_specflow.csproj"
+            dotnetTest project: 'playwright_specflow/playwright_specflow.csproj'
             }
         }
     }
