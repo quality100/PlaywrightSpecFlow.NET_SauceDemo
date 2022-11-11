@@ -1,46 +1,28 @@
 pipeline{
-    agent{ none }
+    agent{
+        docker{
+            image 'mcr.microsoft.com/playwright/dotnet:v1.25.0-focal'
+            args '-u root'
+        }  
+    }
     environment{
             DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
-    }
-    stages{  
-    stage ('Build and Run Tests'){
-        agent{
-            docker{
-                image 'mcr.microsoft.com/playwright/dotnet:v1.25.0-focal'
-                args '-u root'
-            }  
-        } 
-        stages{
-            stage('Build Project'){
-                steps{
-                    dotnetRestore project: 'playwright_specflow/playwright_specflow.csproj'
-                    dotnetBuild project: 'playwright_specflow/playwright_specflow.csproj'
-                }
-            }
-            stage('Install Playwright'){
-                steps{
-                sh 'pwsh playwright_specflow/bin/Debug/net6.0/playwright.ps1 install --with-deps' 
-                }
-            }
-            stage('Run Tests'){
-                steps{
-                dotnetTest project: 'playwright_specflow/playwright_specflow.csproj'
-                }
+    }   
+    stages{
+        stage('Build Project'){
+            steps{
+                dotnetRestore project: 'playwright_specflow/playwright_specflow.csproj'
+                dotnetBuild project: 'playwright_specflow/playwright_specflow.csproj'
             }
         }
-    }
-    }
-    post {
-        always {
-            script {
-                allure([
-                includeProperties: false,
-                jdk: '',
-                properties: [],
-                reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'allure-results']]
-                ])
+        stage('Install Playwright'){
+            steps{
+            sh 'pwsh playwright_specflow/bin/Debug/net6.0/playwright.ps1 install --with-deps' 
+            }
+        }
+        stage('Run Tests'){
+            steps{
+            dotnetTest project: 'playwright_specflow/playwright_specflow.csproj'
             }
         }
     }
