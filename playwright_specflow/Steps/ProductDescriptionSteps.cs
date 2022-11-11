@@ -20,7 +20,7 @@ public class ProductDescriptionSteps
     [Then(@"I verify Product Description page is opened")]
     public async Task ThenIVerifyProductDescriptionPageIsOpened()
     {
-       Assert.True(await _productDescriptionPage.getBackToProductsBtn().GetAwaiter().GetResult().IsVisibleAsync());
+       Assert.True(await (await _productDescriptionPage.getBackToProductsBtn()).IsVisibleAsync());
     }
 
     [Then(@"I verify Product description is the same as on Products Page")]

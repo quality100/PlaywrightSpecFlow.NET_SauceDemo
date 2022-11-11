@@ -20,7 +20,7 @@ namespace SpecFlowSauceDemo_.NET.Drivers
             var playwright = await Playwright.CreateAsync();
             _browser = await playwright.Chromium.LaunchAsync(new()
             {
-                Headless = false,
+                Headless = true,
                 //SlowMo = 50
             });
             return await _browser.NewPageAsync();
