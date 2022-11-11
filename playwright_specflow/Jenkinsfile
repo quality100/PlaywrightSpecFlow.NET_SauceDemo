@@ -17,7 +17,7 @@ pipeline{
         }
         stage('Install Playwright'){
             steps{
-            sh 'pwsh bin/Debug/net6.0/playwright.ps1 install --with-deps' 
+            sh 'pwsh playwright_specflow/bin/Debug/net6.0/playwright.ps1 install --with-deps' 
             }
         }
         stage('Run Tests'){
