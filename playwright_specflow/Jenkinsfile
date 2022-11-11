@@ -2,17 +2,26 @@ pipeline{
     agent{
         docker{
             image 'mcr.microsoft.com/playwright/dotnet:v1.25.0-focal'
-        }     
+            args '-u root'
+        }  
     }
+    environment{
+            DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
+    }   
     stages{
-        stage('install playwright'){
+        stage('Build Project'){
             steps{
-                docker 'run'
+                dotnetRestore project "playwright_specflow/playwright_specflow.csproj"
+                dotnetBuild project "playwright_specflow/playwright_specflow.csproj"
             }
         }
-        stage('Tests Run'){
-             steps{
-              sh 'dotnet Test' 
+        stage('Install Playwright'){
+            steps{
+            sh 'pwsh bin/Debug/net6.0/playwright.ps1 install --with-deps' 
+        }
+        stage('Run Tests'){
+            steps{
+            dotnetTest project "playwright_specflow/playwright_specflow.csproj"
             }
         }
     }
