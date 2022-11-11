@@ -2,7 +2,8 @@ pipeline{
     
     environment{
             DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
-    }  
+    }
+    stages{  
     stage ('Build and Run Tests'){
         agent{
             docker{
@@ -28,6 +29,7 @@ pipeline{
                 }
             }
         }
+    }
     }
     post {
         always {
