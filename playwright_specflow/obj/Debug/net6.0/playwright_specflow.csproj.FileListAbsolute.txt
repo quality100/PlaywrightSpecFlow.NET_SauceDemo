@@ -293,7 +293,6 @@ C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright
 C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\playwright_specflow.deps.json
 C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\playwright_specflow.runtimeconfig.json
 C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\playwright_specflow.dll
-C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\ref\playwright_specflow.dll
 C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\playwright_specflow.pdb
 C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\BoDi.dll
 C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\Cucumber.Messages.dll
@@ -439,3 +438,9 @@ C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright
 C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\obj\Debug\net6.0\playwright_specflow.pdb
 C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\obj\Debug\net6.0\playwright_specflow.genruntimeconfig.cache
 C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\Microsoft.Playwright.NUnit.dll
+C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\specflow.json
+C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\Allure.Commons.dll
+C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\CsvHelper.dll
+C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\MimeTypesMap.dll
+C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\bin\Debug\net6.0\Allure.SpecFlowPlugin.dll
+C:\Users\yury.samsonau\RiderProjects\PlaywrightSpecFlow.NET_SauceDemo\playwright_specflow\obj\Debug\net6.0\refint\playwright_specflow.dll

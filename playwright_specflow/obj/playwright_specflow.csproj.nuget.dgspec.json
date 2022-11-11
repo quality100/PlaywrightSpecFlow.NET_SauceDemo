@@ -76,6 +76,10 @@
               "target": "Package",
               "version": "[4.1.0, )"
             },
+            "SpecFlow.Allure": {
+              "target": "Package",
+              "version": "[3.5.0.73, )"
+            },
             "SpecFlow.Assist.Dynamic": {
               "target": "Package",
               "version": "[1.4.2, )"
