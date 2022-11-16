@@ -27,18 +27,18 @@ pipeline{
             }
         }
     }
-} 
-post {
-    always {
-        unstash 'allure-results'
-        script {
-            allure([
-                includeProperties: false,
-                jdk: '',
-                properties: [],
-                reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'allure-results']]
-            ])
+    post {
+        always {
+            unstash 'allure-results'
+            script {
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'allure-results']]
+                ])
+            }
         }
     }
-}
+} 
