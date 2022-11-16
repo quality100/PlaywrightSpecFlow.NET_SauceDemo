@@ -1,6 +1,6 @@
 {
   "allure": {
-    "directory": "allure-results",
+    "directory": "playwright_specflow/allure-results",
     "links": [
       "{link}",
       "{issue}",
