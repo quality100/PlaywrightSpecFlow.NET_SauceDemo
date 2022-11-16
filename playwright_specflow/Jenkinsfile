@@ -1,13 +1,14 @@
 pipeline{
-    environment{
-            DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
-    }   
+    agent any  
     stages{
         agent{
             docker{
                 image 'mcr.microsoft.com/playwright/dotnet:v1.25.0-focal'
                 args '-u root'
             }  
+        }
+        environment{
+                    DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
         }
         stage('Build Project'){
             steps{
