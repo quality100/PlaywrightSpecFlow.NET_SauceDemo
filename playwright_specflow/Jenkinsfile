@@ -26,6 +26,7 @@ pipeline{
             stash name: 'allure-results', includes: 'playwright_specflow/bin/Debug/net6.0/allure-results/*'
             }
         }
+        docker stop  
     }
     post {
         always {
