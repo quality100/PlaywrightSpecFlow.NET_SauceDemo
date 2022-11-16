@@ -12,7 +12,7 @@ Scenario: Order single product
 	And I verify description on Products Page and Single Product Page are equal         
 	And I verify price on Products Page and Single Product Page are equal         
 	When I click 'Add To Cart' button on Product Page         
-	Then I verify cart badge contains value '1'       
+	Then I verify cart badge contains value '22'       
 	When I click 'Remove' button on Product Page         
 	Then I verify cart badge not visible         
 	When I click 'Add To Cart' button on Product Page         
