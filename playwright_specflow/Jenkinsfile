@@ -55,7 +55,7 @@ pipeline{
                     jdk: '',
                     properties: [],
                     reportBuildPolicy: 'ALWAYS',
-                    results: [[path: 'allure-results']]
+                    results: [[path: 'playwright_specflow/bin/Debug/net6.0/allure-results']]
                 ])
             }
         }
