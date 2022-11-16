@@ -1,14 +1,15 @@
 pipeline{
-    agent{
-        docker{
-            image 'mcr.microsoft.com/playwright/dotnet:v1.25.0-focal'
-            args '-u root'
-        }  
-    }
+    agent any
     environment{
             DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
     }   
     stages{
+        agent{
+            docker{
+                image 'mcr.microsoft.com/playwright/dotnet:v1.25.0-focal'
+                args '-u root'
+            }  
+        }
         stage('Build Project'){
             steps{
                 dotnetRestore project: 'playwright_specflow/playwright_specflow.csproj'
@@ -26,7 +27,6 @@ pipeline{
             stash name: 'allure-results', includes: 'playwright_specflow/bin/Debug/net6.0/allure-results/*'
             }
         }
-        docker stop  
     }
     post {
         always {
