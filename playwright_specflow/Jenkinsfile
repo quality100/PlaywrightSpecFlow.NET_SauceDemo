@@ -41,8 +41,18 @@ pipeline{
                 DOTNET_CLI_HOME = "/tmp/DOTNET_CLI_HOME"
             }
             steps{
-            dotnetTest project: 'playwright_specflow/playwright_specflow.csproj'
-            stash name: 'allure-results', includes: 'playwright_specflow/bin/Debug/net6.0/allure-results/*'
+                script {
+                    try {
+                    dotnetTest project: 'playwright_specflow/playwright_specflow.csproj'
+                    stash name: 'allure-results', includes: 'playwright_specflow/bin/Debug/net6.0/allure-results/*'
+                    currentBuild.result = 'SUCCESS'
+                    } 
+                    catch (e) {
+                    stash name: 'allure-results', includes: 'playwright_specflow/bin/Debug/net6.0/allure-results/*'
+                    currentBuild.result = 'FAILED'
+                    throw e
+                    }
+                }
             }
         }
     }
